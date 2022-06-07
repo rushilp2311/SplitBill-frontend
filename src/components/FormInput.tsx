@@ -11,7 +11,7 @@ type FormType = {
   type?: InputTypeType;
   value?: string | number;
   error?: string;
-  formikProps?: any;
+  name?: string;
   onChange?: (e?: React.ChangeEvent<HTMLInputElement>) => void;
 };
 const FormInput = ({
@@ -22,7 +22,7 @@ const FormInput = ({
   onChange,
   value,
   error,
-  formikProps,
+  name,
   ...props
 }: FormType) => {
   const [showPassword, setShowPassword] = React.useState(false);
@@ -36,7 +36,7 @@ const FormInput = ({
           placeholder={placeholder}
           onChange={onChange}
           value={value}
-          {...formikProps}
+          name={name}
           className={`form-input w-full px-2 py-2 md:px-3 mt-1 rounded border border-zinc-200 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200  focus:ring-offset-0 
         ${
           error
@@ -59,7 +59,7 @@ const FormInput = ({
         )}
       </div>
       {error && (
-        <p className="mt-2 flex  items-center text-red-600">
+        <p className="mt-1 flex  items-center text-red-600">
           <span>{error}</span>
         </p>
       )}

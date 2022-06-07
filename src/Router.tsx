@@ -1,8 +1,7 @@
+import { Logout, Dashboard, LandingPage, SignIn, SignUp } from "pages";
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import LandingPage from "./pages/LandingPage";
-import SignIn from "./pages/SignIn";
-import SignUp from "./pages/SignUp";
+import { getCurrentUser } from "services/authService";
 
 const ROUTES = [
   {
@@ -19,12 +18,35 @@ const ROUTES = [
   },
 ];
 
+const AUTH_ROUTES = [
+  {
+    path: "/",
+    component: () => <Dashboard />,
+  },
+  {
+    path: "/logout",
+    component: () => <Logout />,
+  },
+];
+
 function Router() {
   return (
     <Routes>
-      {ROUTES.map((route) => (
-        <Route key={route.path} path={route.path} element={route.component()} />
-      ))}
+      {getCurrentUser()
+        ? AUTH_ROUTES.map((route) => (
+            <Route
+              key={route.path}
+              path={route.path}
+              element={route.component()}
+            />
+          ))
+        : ROUTES.map((route) => (
+            <Route
+              key={route.path}
+              path={route.path}
+              element={route.component()}
+            />
+          ))}
       <Route path="*" element={<h1>404</h1>} />
     </Routes>
   );

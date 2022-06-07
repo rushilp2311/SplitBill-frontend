@@ -13,7 +13,7 @@ type ButtonType = {
   disabled?: boolean;
   leftIcon?: JSX.IntrinsicElements["svg"] | any;
   rightIcon?: JSX.IntrinsicElements["svg"] | any;
-  onClick?: () => void;
+  onClick?: any;
 };
 
 type ButtonTypeType =
