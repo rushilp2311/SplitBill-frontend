@@ -1,27 +1,39 @@
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import {
-  ClockIcon,
-  CreditCardIcon,
-  DocumentReportIcon,
   HomeIcon,
-  ScaleIcon,
-  UserGroupIcon,
   XIcon,
+  UserGroupIcon,
+  UsersIcon,
 } from "@heroicons/react/outline";
 import Logo from "components/Logo";
 import { classNames } from "utils";
-
-const navigation = [
-  { name: "Home", href: "#", icon: HomeIcon, current: true },
-  { name: "History", href: "#", icon: ClockIcon, current: false },
-  { name: "Balances", href: "#", icon: ScaleIcon, current: false },
-  { name: "Cards", href: "#", icon: CreditCardIcon, current: false },
-  { name: "Recipients", href: "#", icon: UserGroupIcon, current: false },
-  { name: "Reports", href: "#", icon: DocumentReportIcon, current: false },
-];
+import { Link, useLocation } from "react-router-dom";
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }: any) => {
+  const [navigation, setNavigation] = useState([
+    { name: "Home", href: "/", icon: HomeIcon, current: false },
+    { name: "Groups", href: "/groups", icon: UserGroupIcon, current: false },
+    { name: "Friends", href: "/friends", icon: UsersIcon, current: false },
+  ]);
+  const { pathname } = useLocation();
+  useEffect(() => {
+    const updatePathName = pathname.split("/")[1].toLowerCase();
+    setNavigation(
+      navigation.map((item) => {
+        if (
+          item.name.toLowerCase() === updatePathName ||
+          (pathname === "/" && item.name.toLowerCase() === "home")
+        ) {
+          item.current = true;
+        } else {
+          item.current = false;
+        }
+
+        return item;
+      })
+    );
+  }, [pathname]);
   return (
     <>
       <Transition.Root show={sidebarOpen} as={Fragment}>
@@ -75,28 +87,32 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: any) => {
                 <Logo />
               </div>
               <nav
-                className="mt-5 flex-shrink-0 h-full divide-y divide-gray-300 overflow-y-auto"
+                className="mt-20 flex-shrink-0 h-full divide-y divide-gray-300 overflow-y-auto"
                 aria-label="Sidebar"
               >
                 <div className="px-2 space-y-1">
                   {navigation.map((item) => (
-                    <a
+                    <Link
                       key={item.name}
-                      href={item.href}
+                      to={item.href}
                       className={classNames(
                         item.current
-                          ? "bg-blue-700 text-white"
+                          ? "bg-blue-600 text-white"
                           : " text-gray-800 hover:bg-gray-200",
                         "group flex items-center px-2 py-2 text-base font-medium rounded-md"
                       )}
                       aria-current={item.current ? "page" : undefined}
                     >
                       <item.icon
-                        className="mr-4 flex-shrink-0 h-6 w-6"
+                        className={classNames(
+                          item.current
+                            ? "mr-4 flex-shrink-0 h-6 w-6"
+                            : "mr-4 flex-shrink-0 h-6 w-6 text-zinc-600"
+                        )}
                         aria-hidden="true"
                       />
                       {item.name}
-                    </a>
+                    </Link>
                   ))}
                 </div>
               </nav>
@@ -116,28 +132,32 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: any) => {
             <Logo />
           </div>
           <nav
-            className="mt-5 flex-1 flex flex-col divide-y divide-cyan-800 overflow-y-auto"
+            className="mt-20 flex-1 flex flex-col divide-y divide-blue-800 overflow-y-auto"
             aria-label="Sidebar"
           >
             <div className="px-2 space-y-1">
               {navigation.map((item) => (
-                <a
+                <Link
                   key={item.name}
-                  href={item.href}
+                  to={item.href}
                   className={classNames(
                     item.current
-                      ? "bg-blue-700 text-white"
-                      : "text-gray-800 hover:bg-gray-300",
+                      ? "bg-blue-600 text-white"
+                      : "text-gray-800 hover:bg-gray-200",
                     "group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md"
                   )}
                   aria-current={item.current ? "page" : undefined}
                 >
                   <item.icon
-                    className="mr-4 flex-shrink-0 h-6 w-6"
+                    className={classNames(
+                      item.current
+                        ? "mr-4 flex-shrink-0 h-6 w-6"
+                        : "mr-4 flex-shrink-0 h-6 w-6 text-zinc-600"
+                    )}
                     aria-hidden="true"
                   />
                   {item.name}
-                </a>
+                </Link>
               ))}
             </div>
           </nav>

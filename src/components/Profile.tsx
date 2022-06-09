@@ -10,10 +10,10 @@ const Profile = () => {
   return (
     <Menu as="div" className="ml-3 relative">
       <div>
-        <Menu.Button className="max-w-xs bg-white rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 lg:p-2 lg:rounded-md lg:hover:bg-gray-50">
+        <Menu.Button className="max-w-xs bg-white rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 lg:p-2 lg:rounded-md lg:hover:bg-gray-50">
           <img
             className="h-8 w-8 rounded-full"
-            src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+            src="https://xsgames.co/randomusers/avatar.php?g=female"
             alt=""
           />
           <span className="hidden ml-3 text-gray-700 text-sm font-medium lg:block">

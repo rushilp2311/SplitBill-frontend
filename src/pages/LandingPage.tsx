@@ -7,7 +7,6 @@ import {
 import Header from "../components/Header";
 import Button from "../components/Button";
 import HashNodeLogo from "../images/hashnode.png";
-// import svg in react
 import { ReactComponent as PieChart } from "../images/pie-chart.svg";
 import { ReactComponent as CircleGroup } from "../images/circle-group.svg";
 import { Link } from "react-router-dom";

@@ -1,4 +1,12 @@
-import { Logout, Dashboard, LandingPage, SignIn, SignUp } from "pages";
+import {
+  Logout,
+  Dashboard,
+  LandingPage,
+  SignIn,
+  SignUp,
+  Home,
+  Page404,
+} from "pages";
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import { getCurrentUser } from "services/authService";
@@ -22,6 +30,12 @@ const AUTH_ROUTES = [
   {
     path: "/",
     component: () => <Dashboard />,
+    routes: [
+      { path: "/", component: () => <Home /> },
+      { path: "/profile", component: () => <h1>Profile</h1> },
+      { path: "/groups", component: () => <h1>Groups</h1> },
+      { path: "/friends", component: () => <h1>Friends</h1> },
+    ],
   },
   {
     path: "/logout",
@@ -38,7 +52,16 @@ function Router() {
               key={route.path}
               path={route.path}
               element={route.component()}
-            />
+            >
+              {route.routes &&
+                route.routes.map((subRoute) => (
+                  <Route
+                    key={subRoute.path}
+                    path={subRoute.path}
+                    element={subRoute.component()}
+                  />
+                ))}
+            </Route>
           ))
         : ROUTES.map((route) => (
             <Route
@@ -47,7 +70,7 @@ function Router() {
               element={route.component()}
             />
           ))}
-      <Route path="*" element={<h1>404</h1>} />
+      <Route path="*" element={<Page404 />} />
     </Routes>
   );
 }
