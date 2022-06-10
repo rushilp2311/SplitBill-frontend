@@ -6,7 +6,9 @@ import {
   SignUp,
   Home,
   Page404,
+  Groups,
 } from "pages";
+import AddGroup from "pages/Groups/AddGroup";
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import { getCurrentUser } from "services/authService";
@@ -33,8 +35,11 @@ const AUTH_ROUTES = [
     routes: [
       { path: "/", component: () => <Home /> },
       { path: "/profile", component: () => <h1>Profile</h1> },
-      { path: "/groups", component: () => <h1>Groups</h1> },
-      { path: "/friends", component: () => <h1>Friends</h1> },
+      {
+        path: "/groups",
+        component: () => <Groups />,
+      },
+      { path: "/addgroup", component: () => <AddGroup /> },
     ],
   },
   {

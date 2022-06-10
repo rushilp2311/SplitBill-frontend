@@ -5,3 +5,5 @@ export { default as SignIn } from "./SignIn";
 export { default as Home } from "./Home";
 export { default as Logout } from "./Logout";
 export { default as Page404 } from "./Page404";
+
+export { default as Groups } from "./Groups/index";

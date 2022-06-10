@@ -14,7 +14,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: any) => {
   const [navigation, setNavigation] = useState([
     { name: "Home", href: "/", icon: HomeIcon, current: false },
     { name: "Groups", href: "/groups", icon: UserGroupIcon, current: false },
-    { name: "Friends", href: "/friends", icon: UsersIcon, current: false },
   ]);
   const { pathname } = useLocation();
   useEffect(() => {
