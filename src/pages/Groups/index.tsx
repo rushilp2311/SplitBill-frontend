@@ -46,16 +46,23 @@ const Groups = () => {
             </ol>
           </nav>
         </div>
-        <div className="mt-2 md:flex md:items-center md:justify-between">
+        <div className="mt-2 flex items-center justify-between">
           <div className="flex-1 min-w-0">
             <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
               Your Groups
             </h2>
           </div>
-          <div className="mt-4 flex-shrink-0 flex md:mt-0 md:ml-4">
+          <div className="hidden md:flex mt-4 flex-shrink-0 md:mt-0 md:ml-4">
             <Link to="/addgroup">
               <Button leftIcon={<PlusCircleIcon className="w-5" />}>
                 Add Group
+              </Button>
+            </Link>
+          </div>
+          <div className="flex-shrink-0 flex md:hidden md:mt-0 md:ml-4">
+            <Link to="/addgroup">
+              <Button>
+                <PlusCircleIcon className="w-5" />
               </Button>
             </Link>
           </div>

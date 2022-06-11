@@ -1,25 +1,22 @@
 import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
-import {
-  BellIcon,
-  MenuIcon,
-} from "@heroicons/react/outline";
+import { BellIcon, MenuIcon } from "@heroicons/react/outline";
 import Sidebar from "components/Sidebar";
 import Profile from "components/Profile";
 
 export default function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  useEffect(() => { 
-    document.title = "SplitBill - Dashboard"
-  },[])
+  useEffect(() => {
+    document.title = "SplitBill - Dashboard";
+  }, []);
 
   return (
     <>
       <div className="min-h-full">
         <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
-        <div className="lg:pl-64 flex flex-col flex-1">
+        <div className="lg:pl-64 flex flex-col flex-1 h-screen">
           <div className="relative z-10 flex-shrink-0 flex h-16 bg-white border-b border-gray-200">
             <button
               type="button"
@@ -43,7 +40,9 @@ export default function Dashboard() {
               </div>
             </div>
           </div>
-          <main className="flex-1 pb-8"><Outlet/></main>
+          <main className="flex-1 pb-8 h-full">
+            <Outlet />
+          </main>
         </div>
       </div>
     </>

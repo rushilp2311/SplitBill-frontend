@@ -3,6 +3,7 @@ import { FiArrowUpRight, FiMaximize2 } from "react-icons/fi";
 import Button from "components/Button";
 import { ReactComponent as RecieptRed } from "../images/reciept-red.svg";
 import { ReactComponent as CashGreen } from "../images/cash-green.svg";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const groupList = [
@@ -36,9 +37,14 @@ const Home = () => {
       <div className="my-12">
         <div className="flex justify-between pb-6 border-b">
           <h1 className="font-bold text-2xl">Your Groups</h1>
-          <Button type="link" rightIcon={<ExternalLinkIcon className="w-5" />}>
-            View All{" "}
-          </Button>
+          <Link to="/groups">
+            <Button
+              type="link"
+              rightIcon={<ExternalLinkIcon className="w-5" />}
+            >
+              View All{" "}
+            </Button>
+          </Link>
         </div>
         <div className="mt-6 w-full grid lg:grid-cols-3 md:grid-cols-2 space-y-3 sm:space-y-0 sm:place-content-center sm:place-items-center">
           {groupList.map((group) => (

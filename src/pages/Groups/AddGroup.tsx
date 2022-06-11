@@ -1,9 +1,25 @@
-import { Breadcrumb, ComboBox } from "components";
+import { CheckIcon, UserGroupIcon, XIcon } from "@heroicons/react/outline";
+import { Breadcrumb, SearchMember } from "components";
 import Button from "components/Button";
 import FormInput from "components/FormInput";
+import { useState } from "react";
+
+export type MemberType = {
+  name: string;
+  email: string;
+  id: string;
+};
+
 const AddGroup = () => {
+  const [memberList, setMemberList] = useState<MemberType[]>([]);
+  console.log(memberList);
+
+  const handleRemoveMember = (id: string) => {
+    setMemberList(memberList.filter((member) => member.id !== id));
+  };
+
   return (
-    <div className="mt-4 flex-1 px-4 flex flex-col  sm:px-6 xl:max-w-6xl lg:mx-auto lg:px-8">
+    <div className="mt-4 h-full flex-1 px-4 flex flex-col  sm:px-6 xl:max-w-6xl lg:mx-auto lg:px-8">
       {/* Page Header */}
       <div className="">
         <Breadcrumb
@@ -21,8 +37,8 @@ const AddGroup = () => {
         </div>
       </div>
 
-      <div className="mt-8 flex flex-col lg:flex-row justify-evenly items-center lg:justify-between">
-        <div className="mt-4 w-3/4 mb-10 lg:mb-0 max-w-md">
+      <div className="mt-8 flex flex-1 flex-col lg:flex-row justify-evenly items-center lg:justify-between">
+        <div className="mt-4 w-full lg:w-3/4 mb-6 lg:mb-0 max-w-md">
           <FormInput
             label="Name*"
             name="groupName"
@@ -35,20 +51,60 @@ const AddGroup = () => {
             type="text"
             placeholder="Enter Group Description (Optional)"
           />
-          <p>Add Users</p>
-          <ComboBox />
-          <Button margin="mt-5" width="w-full">
-            Add Group
-          </Button>
         </div>
-        <div className="w-2/4 lg:mt-6">
-          <p className="text-xl font-bold">Added Members</p>
-          <p>Rushil</p>
-          <p>Rushil</p>
-          <p>Rushil</p>
-          <p>Rushil</p>
-          <p>Rushil</p>
+        <div className="w-full lg:w-2/4 mt-2 lg:mt-0">
+          <p className="text-xl font-bold">Add Members</p>
+          <SearchMember memberList={memberList} setMemberList={setMemberList} />
+          {/* Member List */}
+          {/* Empty State */}
+          {memberList.length < 1 && (
+            <div className="text-center mt-2 lg:mt-12 p-2 border-2 rounded border-dashed">
+              <div className="flex justify-center">
+                <UserGroupIcon className="w-10 stroke-slate-600 stroke-1" />
+              </div>
+              <h3 className="mt-2 text font-medium text-gray-900">
+                No members
+              </h3>
+              <p className="mt-1 text text-gray-500">
+                Add users by searching for them in the search bar above.
+              </p>
+            </div>
+          )}
+          {/* END Empty State */}
+          {memberList.length > 0 && (
+            <div className="mt-4">
+              <p className="uppercase font-semibold text-gray-800 mb-3">
+                Member List
+              </p>
+              <div className="flex flex-col">
+                {memberList.map((member) => (
+                  <div
+                    key={member.id}
+                    className="flex w-full py-3 flex-row justify-around border-b"
+                  >
+                    <div className="flex-1">
+                      <p className="text font-medium text-gray-900">
+                        {member.name}
+                      </p>
+                      <p className="text-sm text-gray-500">{member.email}</p>
+                    </div>
+                    <Button
+                      type="icon"
+                      margin="mr-5"
+                      onClick={() => handleRemoveMember(member.id)}
+                    >
+                      <XIcon className="text-red-600 w-5" />
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+          {/* END Member List */}
         </div>
+      </div>
+      <div className="flex-1 flex items-end justify-center">
+        <Button width="w-1/2">Add Group</Button>
       </div>
     </div>
   );
