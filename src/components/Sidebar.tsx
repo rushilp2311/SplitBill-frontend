@@ -22,7 +22,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: any) => {
       navigation.map((item) => {
         if (
           item.name.toLowerCase() === updatePathName ||
-          (pathname === "/" && item.name.toLowerCase() === "home")
+          (pathname === "/" && item.name.toLowerCase() === "home") ||
+          (pathname === "/addgroup" && item.name.toLowerCase() === "groups")
         ) {
           item.current = true;
         } else {

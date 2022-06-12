@@ -1,8 +1,12 @@
-import { CheckIcon, UserGroupIcon, XIcon } from "@heroicons/react/outline";
+import { UserGroupIcon, XIcon } from "@heroicons/react/outline";
+import Joi from "joi";
 import { Breadcrumb, SearchMember } from "components";
 import Button from "components/Button";
 import FormInput from "components/FormInput";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { authService, groupService } from "services";
+import ToastContext from "contexts/ToastContext";
+import GroupContext from "contexts/GroupContext";
 
 export type MemberType = {
   name: string;
@@ -10,9 +14,85 @@ export type MemberType = {
   id: string;
 };
 
+const schema: any = {
+  name: Joi.string().required().min(1).max(50).label("Name"),
+  description: Joi.string().allow("").label("Description"),
+};
+
 const AddGroup = () => {
-  const [memberList, setMemberList] = useState<MemberType[]>([]);
-  console.log(memberList);
+  const currentUser: any = authService.getCurrentUser();
+  const { fetchGroups } = useContext(GroupContext);
+  const [group, setGroup] = useState({
+    name: "",
+    description: "",
+  });
+  const [memberList, setMemberList] = useState<MemberType[]>([
+    {
+      name: currentUser.name,
+      email: currentUser.email,
+      id: currentUser._id,
+    },
+  ]);
+  const [errors, setErrors] = useState({
+    name: "",
+    description: "",
+  });
+
+  const { showToast } = useContext(ToastContext);
+
+  const validate = () => {
+    const options = { abortEarly: false };
+    const { error } = Joi.object(schema).validate(group, options);
+    if (!error) return null;
+    const errors: any = {};
+    for (const item of error.details) errors[item.path[0]] = item.message;
+    return errors;
+  };
+
+  const validateProperty = ({ name, value }: any) => {
+    const obj = { [name]: value };
+    const Joischema = { [name]: schema[name] };
+    const { error } = Joi.object(Joischema).validate(obj);
+    return error ? error.details[0].message : null;
+  };
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    const errors = validate();
+    setErrors(errors);
+    if (errors) return;
+    doSubmit();
+  };
+
+  const doSubmit = async () => {
+    try {
+      await groupService.addGroup({
+        ...group,
+        members: memberList.map((member) => member.id),
+      });
+      showToast("Group added successfully", "success");
+      fetchGroups();
+    } catch (error: any) {
+      if (error.response && error.response.status === 400) {
+        setErrors({ ...errors });
+      }
+    }
+  };
+
+  const handleChange = ({ currentTarget: input }: any) => {
+    setErrors({
+      name: "",
+      description: "",
+    });
+    const errorMessage = validateProperty(input);
+    // @ts-ignore
+    if (errorMessage) errors[input.name] = errorMessage;
+    // @ts-ignore
+    else delete errors[input.name];
+
+    setGroup({ ...group, [input.name]: input.value });
+    setErrors(errors);
+  };
 
   const handleRemoveMember = (id: string) => {
     setMemberList(memberList.filter((member) => member.id !== id));
@@ -41,20 +121,29 @@ const AddGroup = () => {
         <div className="mt-4 w-full lg:w-3/4 mb-6 lg:mb-0 max-w-md">
           <FormInput
             label="Name*"
-            name="groupName"
+            name="name"
             type="text"
             placeholder="Enter Group Name"
+            onChange={handleChange}
+            error={errors ? errors.name : ""}
           />
           <FormInput
             label="Description"
-            name="groupName"
+            name="description"
             type="text"
             placeholder="Enter Group Description (Optional)"
+            onChange={handleChange}
+            error={errors ? errors.description : ""}
           />
         </div>
         <div className="w-full lg:w-2/4 mt-2 lg:mt-0">
           <p className="text-xl font-bold">Add Members</p>
-          <SearchMember memberList={memberList} setMemberList={setMemberList} />
+          <div className="mt-2">
+            <SearchMember
+              memberList={memberList}
+              setMemberList={setMemberList}
+            />
+          </div>
           {/* Member List */}
           {/* Empty State */}
           {memberList.length < 1 && (
@@ -104,7 +193,9 @@ const AddGroup = () => {
         </div>
       </div>
       <div className="flex-1 flex items-end justify-center">
-        <Button width="w-1/2">Add Group</Button>
+        <Button width="w-1/2" disabled={validate()} onClick={handleSubmit}>
+          Add Group
+        </Button>
       </div>
     </div>
   );

@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom";
 import { BellIcon, MenuIcon } from "@heroicons/react/outline";
 import Sidebar from "components/Sidebar";
 import Profile from "components/Profile";
+import { Toast } from "components";
 
 export default function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -44,6 +45,7 @@ export default function Dashboard() {
             <Outlet />
           </main>
         </div>
+        <Toast />
       </div>
     </>
   );

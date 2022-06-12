@@ -26,7 +26,7 @@ const SearchInput = ({
 }: SearchInputType) => {
   useEffect(() => {}, [foundUser]);
   return (
-    <div className="flex flex-col  w-3/4 my-2">
+    <div className="flex flex-col  w-3/4">
       <label htmlFor="search">{label}</label>
       <div className="relative w-full">
         <input
@@ -35,7 +35,7 @@ const SearchInput = ({
           onChange={onChange}
           value={value}
           name={name}
-          className={`form-input w-full px-2 py-2 md:px-3 mt-1 rounded border border-zinc-200 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200  focus:ring-offset-0
+          className={`form-input w-full px-2 py-2 md:px-3 rounded border border-zinc-200 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200  focus:ring-offset-0
                   ${
                     error
                       ? "border-red-600 focus:border-red-500 focus:outline-none focus:ring-2 focus:ring-red-200  focus:ring-offset-0"
@@ -51,17 +51,17 @@ const SearchInput = ({
           {...props}
         />
         {!error && !foundUser && (
-          <span className="absolute inset-y-2 p-2 right-1 text-zinc-500 ">
+          <span className="absolute inset-y-1 p-2 right-1 text-zinc-500 ">
             <SearchIcon className="w-5" />
           </span>
         )}
         {!error && foundUser && (
-          <span className="absolute inset-y-2 p-2 right-1 text-zinc-500 ">
+          <span className="absolute inset-y-1 p-2 right-1 text-zinc-500 ">
             <CheckCircleIcon className="w-5 text-green-600" />
           </span>
         )}
         {error && (
-          <span className="absolute inset-y-2 p-2 right-1 text-lg text-red-600">
+          <span className="absolute inset-y-1 p-2 right-1 text-lg text-red-600">
             <FiAlertCircle />
           </span>
         )}

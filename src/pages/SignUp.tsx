@@ -38,7 +38,6 @@ const SignUp = () => {
   const doSubmit = async () => {
     try {
       const response = await userService.registerUser(data);
-      console.log(response);
       authService.loginWithJwt(response.headers["authorization"]);
       window.location.href = "/";
     } catch (error: any) {

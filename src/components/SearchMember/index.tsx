@@ -3,7 +3,8 @@ import { SearchInput } from "components";
 import Button from "components/Button";
 import Joi from "joi";
 import { MemberType } from "pages/Groups/AddGroup";
-import { useState } from "react";
+import ToastContext from "contexts/ToastContext";
+import { useState, useContext } from "react";
 import { findUserByEmail } from "services/userService";
 
 type SearchMemberProps = {
@@ -16,6 +17,8 @@ const SearchMember = ({ memberList, setMemberList }: SearchMemberProps) => {
   const [emailError, setEmailError] = useState<string | null | undefined>("");
   const [foundUser, setFoundUser] = useState<boolean>(false);
   const [searchedUser, setSearchedUser] = useState<any>();
+
+  const { showToast } = useContext(ToastContext);
 
   const schema: any = {
     email: Joi.string()
@@ -73,23 +76,28 @@ const SearchMember = ({ memberList, setMemberList }: SearchMemberProps) => {
   // TODO: update the error messages
   const handleAddMember = (e: any) => {
     if (memberList.length === 5) {
-      console.log("Max 5 members");
+      showToast("Maximum 5 members are allowed in the group", "warning");
+      return;
     }
     if (memberList.find((member) => member.email === searchedUser.email)) {
-      console.log("user already added");
+      showToast("Member already added", "error");
+      setSearchedUser({});
+      setFoundUser(false);
+      setEmail("");
     } else {
       setMemberList([...memberList, searchedUser]);
+      showToast("Member added", "success");
       setSearchedUser({});
       setFoundUser(false);
       setEmail("");
     }
+    return;
   };
 
-  console.log(emailError);
 
   return (
     <>
-      <div className="flex items-center">
+      <div className="flex items-start">
         <SearchInput
           name="email"
           placeholder="Search member by email"
@@ -120,7 +128,7 @@ const SearchMember = ({ memberList, setMemberList }: SearchMemberProps) => {
         </div>
       </div>
       {foundUser && (
-        <div className="text-green-700">
+        <div className="text-green-700 mt-1">
           Do you want to add this user to the group?
         </div>
       )}

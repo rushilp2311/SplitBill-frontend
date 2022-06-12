@@ -1,11 +1,13 @@
-import React from "react";
+import { ToastProvider } from "contexts/ToastContext";
 import Router from "./Router";
 
 function App() {
   return (
     <>
       {/* This is for routes */}
-      <Router />
+      <ToastProvider>
+        <Router />
+      </ToastProvider>
     </>
   );
 }
