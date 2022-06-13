@@ -13,7 +13,7 @@ export const GroupProvider = ({ children }: any) => {
 
   const fetchGroups = async () => {
     const currentUser: any = authService.getCurrentUser();
-    const groups = await groupService.getGroupByMemberId(currentUser._id);
+    const groups = await groupService.getGroupByMemberId(currentUser.id);
     setGroupList(groups);
   };
 

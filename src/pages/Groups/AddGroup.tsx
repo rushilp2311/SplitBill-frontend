@@ -7,6 +7,7 @@ import { useContext, useState } from "react";
 import { authService, groupService } from "services";
 import ToastContext from "contexts/ToastContext";
 import GroupContext from "contexts/GroupContext";
+import { useNavigate } from "react-router-dom";
 
 export type MemberType = {
   name: string;
@@ -20,6 +21,7 @@ const schema: any = {
 };
 
 const AddGroup = () => {
+  const navigate = useNavigate();
   const currentUser: any = authService.getCurrentUser();
   const { fetchGroups } = useContext(GroupContext);
   const [group, setGroup] = useState({
@@ -30,7 +32,7 @@ const AddGroup = () => {
     {
       name: currentUser.name,
       email: currentUser.email,
-      id: currentUser._id,
+      id: currentUser.id,
     },
   ]);
   const [errors, setErrors] = useState({
@@ -72,6 +74,7 @@ const AddGroup = () => {
       });
       showToast("Group added successfully", "success");
       fetchGroups();
+      navigate("/groups");
     } catch (error: any) {
       if (error.response && error.response.status === 400) {
         setErrors({ ...errors });

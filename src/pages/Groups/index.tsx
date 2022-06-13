@@ -1,8 +1,29 @@
 import { PlusCircleIcon } from "@heroicons/react/outline";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/solid";
 import Button from "components/Button";
+import GroupContext from "contexts/GroupContext";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 const Groups = () => {
+  const { groupList } = useContext(GroupContext);
+  const people = [
+    {
+      name: "Jane Cooper",
+      title: "Regional Paradigm Technician",
+      role: "Admin",
+    },
+    {
+      name: "Jane Cooper",
+      title: "Regional Paradigm Technician",
+      role: "Admin",
+    },
+    {
+      name: "Jane Cooper",
+      title: "Regional Paradigm Technician",
+      role: "Admin",
+    },
+    // More people...
+  ];
   return (
     <div>
       {/* Page Heading */}
@@ -65,6 +86,63 @@ const Groups = () => {
                 <PlusCircleIcon className="w-5" />
               </Button>
             </Link>
+          </div>
+        </div>
+        <div className="flex flex-col mt-12">
+          <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+              <div className="shadow overflow-hidden border-b border-gray-200 rounded">
+                <table className="min-w-full divide-y divide-gray-200">
+                  <thead className="bg-gray-200">
+                    <tr>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider"
+                      >
+                        Name
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider"
+                      >
+                        Description
+                      </th>
+
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider"
+                      >
+                        Members
+                      </th>
+                      <th scope="col" className="relative px-6 py-3">
+                        <span className="sr-only">Edit</span>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-gray-200">
+                    {groupList.map((group) => (
+                      <tr key={group._id}>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                          {group.name}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          {group.description}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          {group.members?.length}
+                        </td>
+
+                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                          <Link to={`/group/detail/${group._id}`}>
+                            <Button type="link">Open</Button>
+                          </Link>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         </div>
       </div>

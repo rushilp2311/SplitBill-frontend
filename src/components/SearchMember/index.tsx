@@ -9,10 +9,15 @@ import { findUserByEmail } from "services/userService";
 
 type SearchMemberProps = {
   memberList: MemberType[];
-  setMemberList: any;
+  setMemberList?: any;
+  handleAdd?: any;
 };
 
-const SearchMember = ({ memberList, setMemberList }: SearchMemberProps) => {
+const SearchMember = ({
+  memberList,
+  setMemberList,
+  handleAdd,
+}: SearchMemberProps) => {
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState<string | null | undefined>("");
   const [foundUser, setFoundUser] = useState<boolean>(false);
@@ -86,6 +91,8 @@ const SearchMember = ({ memberList, setMemberList }: SearchMemberProps) => {
       setEmail("");
     } else {
       setMemberList([...memberList, searchedUser]);
+
+      handleAdd(searchedUser.id);
       showToast("Member added", "success");
       setSearchedUser({});
       setFoundUser(false);
@@ -94,13 +101,12 @@ const SearchMember = ({ memberList, setMemberList }: SearchMemberProps) => {
     return;
   };
 
-
   return (
     <>
       <div className="flex items-start">
         <SearchInput
           name="email"
-          placeholder="Search member by email"
+          placeholder="Search by email"
           onChange={handleChange}
           value={email}
           error={emailError ? emailError : ""}

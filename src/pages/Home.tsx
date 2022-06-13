@@ -4,28 +4,11 @@ import Button from "components/Button";
 import { ReactComponent as RecieptRed } from "../images/reciept-red.svg";
 import { ReactComponent as CashGreen } from "../images/cash-green.svg";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import GroupContext from "contexts/GroupContext";
 
 const Home = () => {
-  const groupList = [
-    {
-      name: "April",
-      membersCount: 3,
-      avatar: "https://picsum.photos/id/120/300/200",
-      id: 1,
-    },
-    {
-      name: "Trip to Paris",
-      membersCount: 10,
-      avatar: "https://picsum.photos/id/122/300/200",
-      id: 1,
-    },
-    {
-      name: "Grocerry",
-      membersCount: 4,
-      avatar: "https://picsum.photos/id/13/300/200",
-      id: 1,
-    },
-  ];
+  const { groupList } = useContext(GroupContext);
 
   const calculateRemainingMembers = (membersCount: number) => {
     return membersCount - 3;
@@ -37,26 +20,33 @@ const Home = () => {
       <div className="my-12">
         <div className="flex justify-between pb-6 border-b">
           <h1 className="font-bold text-2xl">Your Groups</h1>
-          <Link to="/groups">
-            <Button
-              type="link"
-              rightIcon={<ExternalLinkIcon className="w-5" />}
-            >
-              View All{" "}
-            </Button>
-          </Link>
+          {groupList.length > 3 && (
+            <Link to="/groups">
+              <Button
+                type="link"
+                rightIcon={<ExternalLinkIcon className="w-5" />}
+              >
+                View All{" "}
+              </Button>
+            </Link>
+          )}
         </div>
         <div className="mt-6 w-full grid lg:grid-cols-3 md:grid-cols-2 space-y-3 sm:space-y-0 sm:place-content-center sm:place-items-center">
-          {groupList.map((group) => (
-            <div className="h-fit py-3 flex flex-col justify-between border-2 rounded p-2 px-6 w-3/4 sm:min-w-0 min-w-full">
+          {groupList.slice(0, 3).map((group) => (
+            <div
+              key={group._id}
+              className="h-fit py-3 flex flex-col justify-between border-2 rounded p-2 px-6 w-3/4 sm:min-w-0 min-w-full"
+            >
               <div className="mb-5 flex justify-between items-center border-b pb-2">
                 <p className="font-bold text-xl flex items-center ">
                   <UserGroupIcon className="w-6 mr-2" />
                   {group.name}
                 </p>
-                <Button type="icon">
-                  <ExternalLinkIcon className="w-5 text-gray-500" />
-                </Button>
+                <Link to={`/group/detail/${group._id}`}>
+                  <Button type="icon">
+                    <ExternalLinkIcon className="w-5 text-gray-500" />
+                  </Button>
+                </Link>
               </div>
               <div className="mb-4">
                 <p className="uppercase text-sm font-semibold text-gray-500">
@@ -67,10 +57,10 @@ const Home = () => {
 
               <div className="flex flex-col items-start">
                 <p className="uppercase text-sm mb-3 font-semibold text-gray-500">
-                  Members
+                  Members: <span className="ml-2">{group.members.length}</span>
                 </p>
-                <div className="flex -space-x-1 relative z-0 overflow-hidden">
-                  {group.membersCount > 3 && (
+                {/* <div className="flex -space-x-1 relative z-0 overflow-hidden">
+                  {group.members.length > 3 && (
                     <p className="flex justify-center items-center border z-40 border-blue-800 bg-blue-200 h-8 w-8 font-semibold text-blue-700 rounded-full">
                       +{calculateRemainingMembers(group.membersCount)}
                     </p>
@@ -82,7 +72,7 @@ const Home = () => {
                       alt=""
                     />
                   ))}
-                </div>
+                </div> */}
               </div>
             </div>
           ))}

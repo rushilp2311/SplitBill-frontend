@@ -4,6 +4,13 @@ import http from "./httpService";
 const apiEndpoint = "/auth";
 const tokenKey = "token";
 
+type User = {
+  email: string;
+  name: string;
+  _id: string;
+  id?: string;
+};
+
 export async function login(email: string, password: string) {
   const { data: jwt } = await http.post(apiEndpoint, { email, password });
   localStorage.setItem(tokenKey, jwt);
@@ -17,10 +24,11 @@ export function loginWithJwt(jwt: any) {
   localStorage.setItem(tokenKey, jwt);
 }
 
-export function getCurrentUser() {
+export function getCurrentUser(): User | null {
   try {
     const jwt = localStorage.getItem(tokenKey) || "";
-    return jwtDecode(jwt);
+    const user: User = jwtDecode(jwt);
+    return { ...user, id: user._id };
   } catch (ex) {
     return null;
   }

@@ -7,6 +7,8 @@ import {
   Home,
   Page404,
   Groups,
+  GroupDetail,
+  AddExpense,
 } from "pages";
 import AddGroup from "pages/Groups/AddGroup";
 import React from "react";
@@ -40,6 +42,8 @@ const AUTH_ROUTES = [
         component: () => <Groups />,
       },
       { path: "/addgroup", component: () => <AddGroup /> },
+      { path: "/group/detail/:groupId", component: () => <GroupDetail /> },
+      { path: "/group/:groupId/addexpense", component: () => <AddExpense /> },
     ],
   },
   {
