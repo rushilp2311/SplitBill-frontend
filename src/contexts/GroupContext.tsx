@@ -4,12 +4,13 @@ import { authService, groupService } from "services";
 type GroupContextType = {
   groupList: any[];
   fetchGroups: () => void;
+  getGroupById: (groupId: string) => any;
 };
 
 const GroupContext = createContext({} as GroupContextType);
 
 export const GroupProvider = ({ children }: any) => {
-  const [groupList, setGroupList] = useState([]);
+  const [groupList, setGroupList] = useState<any>([]);
 
   const fetchGroups = async () => {
     const currentUser: any = authService.getCurrentUser();
@@ -17,12 +18,16 @@ export const GroupProvider = ({ children }: any) => {
     setGroupList(groups);
   };
 
+  const getGroupById = (id: string) => {
+    return groupList.find((group: any) => group._id === id);
+  };
+
   useEffect(() => {
     fetchGroups();
   }, []);
 
   return (
-    <GroupContext.Provider value={{ groupList, fetchGroups }}>
+    <GroupContext.Provider value={{ groupList, fetchGroups, getGroupById }}>
       {children}
     </GroupContext.Provider>
   );

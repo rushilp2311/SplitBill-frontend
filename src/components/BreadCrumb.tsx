@@ -30,7 +30,7 @@ const Breadcrumb = ({ paths }: any) => {
           </li>
           {paths.map((path: any) => {
             return (
-              <li>
+              <li key={path.to}>
                 <div className="flex items-center">
                   <ChevronRightIcon
                     className="flex-shrink-0 h-5 w-5 text-gray-400"
