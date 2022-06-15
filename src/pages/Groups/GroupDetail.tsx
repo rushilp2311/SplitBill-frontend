@@ -12,6 +12,7 @@ import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { expenseService, groupService } from "services";
 import EditMembers from "./EditMembers";
+import ExpenseList from "./Expense/ExpenseList";
 
 const GroupDetail = () => {
   const [open, setOpen] = useState(false);
@@ -22,6 +23,7 @@ const GroupDetail = () => {
   const navigate = useNavigate();
   const [group, setGroup] = useState<any>({});
   const [memberList, setMemberList] = useState<any[]>(group.members);
+  const [expenseList, setExpenseList] = useState<any[]>([]);
   const { showToast } = useContext(ToastContext);
 
   const fetchGroupById = async () => {
@@ -38,7 +40,9 @@ const GroupDetail = () => {
   const fetchExpenses = async () => {
     if (!groupId) return;
     const result = await expenseService.getExpensesByGroupId(groupId);
-    console.log(result);
+    if (result) {
+      setExpenseList(result);
+    }
   };
 
   useEffect(() => {
@@ -74,7 +78,7 @@ const GroupDetail = () => {
 
   return (
     <>
-      <div className="mt-4 h-full flex-1 px-4 flex flex-col  sm:px-6 xl:max-w-6xl lg:mx-auto lg:px-8">
+      <div className="h-[calc(100vh-64px)] pt-3 flex-1 px-4 flex flex-col  sm:px-6 xl:max-w-6xl lg:mx-auto lg:px-8">
         {/* Page Header */}
         <div>
           <Breadcrumb
@@ -105,19 +109,28 @@ const GroupDetail = () => {
             </div>
           </div>
         </div>
-        <div className="mt-6 sm:grid sm:grid-cols-4 sm:space-x-4 flex flex-col h-full">
-          <div className="sm:col-span-2 border h-full w-full">
+        <div className="h-[calc(100vh-180px)] pt-6 sm:grid sm:grid-cols-4 sm:space-x-4 flex flex-col">
+          <div className="sm:col-span-2 overflow-y-auto w-full">
             {/* Expense List */}
+            <p className="uppercase text-gray-500 font-medium text-sm">
+              Expense List
+            </p>
+            <>
+              <ExpenseList expenseList={expenseList} />
+            </>
           </div>
-          <div className="flex flex-col sm:col-span-2 justify-between">
-            <div className="mt-2">
+          <div className="flex flex-col sm:col-span-2 justify-start">
+            <div className="my-2">
+              <p className="uppercase text-gray-500 font-medium text-sm">
+                Add Member
+              </p>
               <SearchMember
                 memberList={memberList}
                 setMemberList={setMemberList}
                 handleAdd={handleAddMember}
               />
             </div>
-            <div className="border shadow-sm rounded">
+            <div className="border shadow-sm rounded my-2 ">
               <p className=" uppercase font-semibold p-2 text-sm text-white rounded-t bg-gray-800">
                 Members
               </p>
@@ -149,7 +162,7 @@ const GroupDetail = () => {
                   ))}
               </div>
             </div>
-            <div className="mt-6 p-2 border-2 border-dashed border-red-200 shadow-sm rounded">
+            <div className="mt-6 p-2 border-2 border-dashed border-red-200 shadow-sm rounded my-2">
               <p className="uppercase text-red-600 font-semibold text-sm">
                 Danger Zone
               </p>

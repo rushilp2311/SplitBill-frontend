@@ -23,7 +23,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: any) => {
         if (
           item.name.toLowerCase() === updatePathName ||
           (pathname === "/" && item.name.toLowerCase() === "home") ||
-          (pathname === "/addgroup" && item.name.toLowerCase() === "groups")
+          (updatePathName === "group" && item.name.toLowerCase() === "groups")
         ) {
           item.current = true;
         } else {

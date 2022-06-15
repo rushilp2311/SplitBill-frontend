@@ -14,10 +14,10 @@ export default function Dashboard() {
 
   return (
     <>
-      <div className="min-h-full">
+      <div className="h-full">
         <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
-        <div className="lg:pl-64 flex flex-col flex-1 h-screen">
+        <div className="lg:pl-64 flex flex-col flex-1 h-full">
           <div className="relative z-10 flex-shrink-0 flex h-16 bg-white border-b border-gray-200">
             <button
               type="button"
@@ -41,7 +41,7 @@ export default function Dashboard() {
               </div>
             </div>
           </div>
-          <main className="flex-1 pb-8 h-full">
+          <main className="flex-1 flex-shrink h-[calc(100vh-64px)]">
             <Outlet />
           </main>
         </div>
