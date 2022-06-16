@@ -25,7 +25,6 @@ export async function removeMember(groupId: string, memberId: string) {
 }
 
 export async function addMember(groupId: string, memberId: string) {
-  console.log("Called addMember");
   const result = await http.post(
     `${apiEndpoint}/${groupId}/member/${memberId}`
   );

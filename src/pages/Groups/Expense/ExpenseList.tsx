@@ -11,6 +11,7 @@ const ExpenseList = ({ expenseList }: ExpenseProps) => {
   const [showExpenseDetail, setShowExpenseDetail] = useState(false);
   const [selectedExpense, setSelectedExpense] = useState<any>();
   const currentUser: any = authService.getCurrentUser();
+
   return (
     <>
       {expenseList && expenseList.length > 0 ? (
@@ -19,7 +20,7 @@ const ExpenseList = ({ expenseList }: ExpenseProps) => {
             <>
               <div
                 key={expense._id}
-                className=" grid grid-cols-3 items-center px-3 py-1 hover:bg-gray-50 hover:cursor-pointer"
+                className=" grid grid-cols-3 sm:grid-cols-5 items-center px-3 py-1 hover:bg-gray-50 hover:cursor-pointer"
                 onClick={() => {
                   setShowExpenseDetail(true);
                   setSelectedExpense(expense);
@@ -33,11 +34,11 @@ const ExpenseList = ({ expenseList }: ExpenseProps) => {
                     $ {Number(expense.amount).toFixed(2)}
                   </p>
                 </div>
-                <div className="text-gray-500 text-sm justify-self-center">
+                <div className="text-gray-500 hidden sm:block col-span-2 text-sm justify-self-center">
                   <p>
                     Paid by{" "}
                     <span className="text-gray-600 font-medium">
-                      {expense.paidBy.name === currentUser.name
+                      {expense.paidBy._id === currentUser._id
                         ? "You"
                         : expense.paidBy.name}
                     </span>
@@ -49,6 +50,35 @@ const ExpenseList = ({ expenseList }: ExpenseProps) => {
                     </span>
                   </p>
                 </div>
+                {expense.paidBy._id === currentUser.id ? (
+                  <div className="text-green-600 font-semibold text-sm justify-self-center">
+                    <p>You Lent</p>
+                    <p>
+                      ${" "}
+                      {
+                        expense?.membersBalance?.find(
+                          (member: any) =>
+                            member?.memberId?.toString() === currentUser.id
+                        ).balance
+                      }
+                    </p>
+                  </div>
+                ) : (
+                  <div className="text-red-500 font-semibold text-sm justify-self-center">
+                    <p>You Owe</p>
+                    <p>
+                      ${" "}
+                      {
+                        expense?.membersBalance
+                          ?.find(
+                            (member: any) =>
+                              member?.memberId?.toString() === currentUser.id
+                          )
+                          .balance.split("-")[1]
+                      }
+                    </p>
+                  </div>
+                )}
                 <div className="justify-self-end text-gray-400">
                   <ChevronRightIcon className="w-5" />
                 </div>

@@ -6,6 +6,7 @@ import { ReactComponent as CashGreen } from "../images/cash-green.svg";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import GroupContext from "contexts/GroupContext";
+import { Loading } from "components";
 
 const Home = () => {
   const { groupList } = useContext(GroupContext);
@@ -31,35 +32,39 @@ const Home = () => {
             </Link>
           )}
         </div>
-        <div className="mt-6 w-full grid lg:grid-cols-3 md:grid-cols-2 space-y-3 sm:space-y-0 sm:place-content-center sm:place-items-center">
-          {groupList.slice(0, 3).map((group) => (
-            <div
-              key={group._id}
-              className="h-fit py-3 flex flex-col justify-between border-2 rounded p-2 px-6 w-3/4 sm:min-w-0 min-w-full"
-            >
-              <div className="mb-5 flex justify-between items-center border-b pb-2">
-                <p className="font-bold text-xl flex items-center ">
-                  <UserGroupIcon className="w-6 mr-2" />
-                  {group.name}
-                </p>
-                <Link to={`/group/detail/${group._id}`}>
-                  <Button type="icon">
-                    <ExternalLinkIcon className="w-5 text-gray-500" />
-                  </Button>
-                </Link>
-              </div>
-              <div className="mb-4">
-                <p className="uppercase text-sm font-semibold text-gray-500">
-                  Total Expenses
-                </p>
-                <p className="text-2xl font-semibold">54</p>
-              </div>
+        {groupList.length > 1 ? (
+          <div className="mt-6 w-full grid lg:grid-cols-3 md:grid-cols-2 space-y-3 sm:space-y-0 sm:place-content-center sm:place-items-center">
+            {groupList.slice(0, 3).map((group) => (
+              <div
+                key={group._id}
+                className="h-fit py-3 flex flex-col justify-between border-2 rounded p-2 px-6 w-3/4 sm:min-w-0 min-w-full"
+              >
+                <div className="mb-5 flex justify-between items-center border-b pb-2">
+                  <p className="font-bold text-xl flex items-center ">
+                    <UserGroupIcon className="w-6 mr-2" />
+                    {group.name}
+                  </p>
+                  <Link to={`/group/detail/${group._id}`}>
+                    <Button type="icon">
+                      <ExternalLinkIcon className="w-5 text-gray-500" />
+                    </Button>
+                  </Link>
+                </div>
+                <div className="mb-4">
+                  <p className="uppercase text-sm font-semibold text-gray-500">
+                    Total Expenses
+                  </p>
+                  <p className="text-2xl font-semibold">
+                    {group.totalExpenses}
+                  </p>
+                </div>
 
-              <div className="flex flex-col items-start">
-                <p className="uppercase text-sm mb-3 font-semibold text-gray-500">
-                  Members: <span className="ml-2">{group.members.length}</span>
-                </p>
-                {/* <div className="flex -space-x-1 relative z-0 overflow-hidden">
+                <div className="flex flex-col items-start">
+                  <p className="uppercase text-sm mb-3 font-semibold text-gray-500">
+                    Members:{" "}
+                    <span className="ml-2">{group.members.length}</span>
+                  </p>
+                  {/* <div className="flex -space-x-1 relative z-0 overflow-hidden">
                   {group.members.length > 3 && (
                     <p className="flex justify-center items-center border z-40 border-blue-800 bg-blue-200 h-8 w-8 font-semibold text-blue-700 rounded-full">
                       +{calculateRemainingMembers(group.membersCount)}
@@ -73,10 +78,13 @@ const Home = () => {
                     />
                   ))}
                 </div> */}
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <Loading />
+        )}
       </div>
       {/* Expense Overview */}
       <div className="mt-12">

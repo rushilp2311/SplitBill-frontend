@@ -21,6 +21,7 @@ type ButtonTypeType =
   | "secondary"
   | "danger"
   | "secondaryDanger"
+  | "success"
   | "icon"
   | "link"
   | "ghost";
@@ -40,6 +41,8 @@ const ButtonTypeStyle: StyleType = {
     "cursor-pointer px-4 py-2 md:px-6 rounded font-medium active:ring-2 ring-red-200 text-white bg-red-600 hover:bg-red-700",
   secondaryDanger:
     "cursor-pointerpx-4 py-2 md:px-6 border rounded font-medium active:ring-2 border-red-100 active:border-red-200 bg-red-100 text-red-700 hover:bg-red-200 ring-red-100",
+  success:
+    "cursor-pointer px-4 py-2 md:px-6 rounded font-medium active:ring-2 ring-green-200 text-white bg-green-600 hover:bg-green-700",
   icon: "p-2 active:ring-2 ring-zinc-200 duration-150 ease-in-out rounded-full text-xl hover:bg-zinc-100",
   loading:
     "flex items-center justify-center pointer-events-none cursor-not-allowed opacity-80",

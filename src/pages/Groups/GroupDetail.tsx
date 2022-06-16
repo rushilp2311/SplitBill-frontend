@@ -4,7 +4,7 @@ import {
   TrashIcon,
   XCircleIcon,
 } from "@heroicons/react/outline";
-import { Breadcrumb, SearchMember } from "components";
+import { Breadcrumb, SearchMember, Tabs } from "components";
 import Button from "components/Button";
 import Loading from "components/Loading";
 import ToastContext from "contexts/ToastContext";
@@ -54,14 +54,12 @@ const GroupDetail = () => {
   }, []);
 
   const handleAddMember = async (memberId?: string) => {
-    console.log("Called", memberId);
     if (memberId) {
       await groupService.addMember(group._id, memberId);
     }
   };
 
   const handleMemberDelete = async (memberId?: string) => {
-    console.log("Called");
     if (memberId) {
       const result = await groupService.removeMember(group._id, memberId);
       if (result) {
@@ -112,12 +110,25 @@ const GroupDetail = () => {
         <div className="h-[calc(100vh-180px)] pt-6 sm:grid sm:grid-cols-4 sm:space-x-4 flex flex-col">
           <div className="sm:col-span-2 overflow-y-auto w-full">
             {/* Expense List */}
-            <p className="uppercase text-gray-500 font-medium text-sm">
+            <p className="uppercase mb-2 text-gray-500 font-medium text-sm">
               Expense List
             </p>
-            <>
-              <ExpenseList expenseList={expenseList} />
-            </>
+            <Tabs
+              tabs={[
+                {
+                  label: "Active",
+                  content: (
+                    <>
+                      <ExpenseList expenseList={expenseList} />
+                    </>
+                  ),
+                },
+                {
+                  label: "Settled",
+                  content: <>Settled</>,
+                },
+              ]}
+            />
           </div>
           <div className="flex flex-col sm:col-span-2 justify-start">
             <div className="my-2">
