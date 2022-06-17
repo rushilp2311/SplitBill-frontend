@@ -5,9 +5,10 @@ import ExpenseDetailModal from "./ExpenseDetailModal";
 
 type ExpenseProps = {
   expenseList: any[];
+  settled?: boolean;
 };
 
-const ExpenseList = ({ expenseList }: ExpenseProps) => {
+const ExpenseList = ({ expenseList, settled = false }: ExpenseProps) => {
   const [showExpenseDetail, setShowExpenseDetail] = useState(false);
   const [selectedExpense, setSelectedExpense] = useState<any>();
   const currentUser: any = authService.getCurrentUser();
@@ -64,8 +65,12 @@ const ExpenseList = ({ expenseList }: ExpenseProps) => {
                     </p>
                   </div>
                 ) : (
-                  <div className="text-red-500 font-semibold text-sm justify-self-center">
-                    <p>You Owe</p>
+                  <div
+                    className={`${
+                      settled ? "text-green-600" : "text-red-500"
+                    } font-semibold text-sm justify-self-center`}
+                  >
+                    {settled ? <p>You Paid</p> : <p>You Owe</p>}
                     <p>
                       ${" "}
                       {
@@ -91,7 +96,9 @@ const ExpenseList = ({ expenseList }: ExpenseProps) => {
           <div className="flex justify-center">
             <CurrencyRupeeIcon className="w-10 stroke-slate-600 stroke-1" />
           </div>
-          <h3 className="mt-2 text font-medium text-gray-900">No Expenses</h3>
+          <h3 className="mt-2 text font-medium text-gray-900">
+            {settled ? "Nothing to Show" : "No Active Expenses"}
+          </h3>
           <p className="mt-1 text text-gray-500">
             Add expenses by clicking the + button.
           </p>
@@ -99,6 +106,7 @@ const ExpenseList = ({ expenseList }: ExpenseProps) => {
       )}
       <ExpenseDetailModal
         expense={selectedExpense}
+        settled={settled}
         open={showExpenseDetail}
         setOpen={setShowExpenseDetail}
       />

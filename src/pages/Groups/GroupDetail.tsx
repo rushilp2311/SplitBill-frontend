@@ -2,15 +2,15 @@ import {
   ExclamationIcon,
   PlusCircleIcon,
   TrashIcon,
-  XCircleIcon,
 } from "@heroicons/react/outline";
 import { Breadcrumb, SearchMember, Tabs } from "components";
 import Button from "components/Button";
 import Loading from "components/Loading";
+import GroupContext from "contexts/GroupContext";
 import ToastContext from "contexts/ToastContext";
 import { useContext, useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { expenseService, groupService } from "services";
+import { Link, useParams } from "react-router-dom";
+import { groupService } from "services";
 import EditMembers from "./EditMembers";
 import ExpenseList from "./Expense/ExpenseList";
 
@@ -20,37 +20,28 @@ const GroupDetail = () => {
   const [deleteMember, setDeleteMember] = useState("");
 
   const { groupId } = useParams();
-  const navigate = useNavigate();
-  const [group, setGroup] = useState<any>({});
-  const [memberList, setMemberList] = useState<any[]>(group.members);
-  const [expenseList, setExpenseList] = useState<any[]>([]);
+  const {
+    group,
+    expenseList,
+    fetchExpenses,
+    fetchGroupById,
+    memberList,
+    settledExpenseList,
+    setMemberList,
+  } = useContext(GroupContext);
+
   const { showToast } = useContext(ToastContext);
 
-  const fetchGroupById = async () => {
-    const result = await groupService.getGroupById(groupId);
-    if (result) {
-      setGroup(result);
-      setMemberList(result.members);
-    } else {
-      showToast("Group not found", "error");
-      navigate("/groups");
-    }
-  };
-
-  const fetchExpenses = async () => {
-    if (!groupId) return;
-    const result = await expenseService.getExpensesByGroupId(groupId);
-    if (result) {
-      setExpenseList(result);
-    }
-  };
-
   useEffect(() => {
-    fetchGroupById();
+    if (groupId) {
+      fetchGroupById(groupId);
+    }
   }, []);
 
   useEffect(() => {
-    fetchExpenses();
+    if (groupId) {
+      fetchExpenses(groupId);
+    }
   }, []);
 
   const handleAddMember = async (memberId?: string) => {
@@ -64,7 +55,7 @@ const GroupDetail = () => {
       const result = await groupService.removeMember(group._id, memberId);
       if (result) {
         showToast("Member removed", "success");
-        fetchGroupById();
+        fetchGroupById(groupId);
         setOpen(false);
         return;
       }
@@ -125,7 +116,9 @@ const GroupDetail = () => {
                 },
                 {
                   label: "Settled",
-                  content: <>Settled</>,
+                  content: (
+                    <ExpenseList expenseList={settledExpenseList} settled />
+                  ),
                 },
               ]}
             />

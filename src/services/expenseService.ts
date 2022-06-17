@@ -7,7 +7,26 @@ export async function addExpense(expense: any) {
   return result.data;
 }
 
-export async function getExpensesByGroupId(groupId: string) {
-  const result = await http.get(`${apiEndpoint}/group/${groupId}`);
+export async function getExpensesByGroupIdAndMemberId(
+  groupId: string,
+  memberId: string
+) {
+  const result = await http.get(
+    `${apiEndpoint}/group/${groupId}/member/${memberId}`
+  );
+  return result.data;
+}
+
+export async function settleExpense(expenseId: string, memberId: string) {
+  const result = await http.post(
+    `${apiEndpoint}/${expenseId}/settle/${memberId}`
+  );
+  return result.data;
+}
+
+export async function revertExpense(expenseId: string, memberId: string) {
+  const result = await http.post(
+    `${apiEndpoint}/${expenseId}/revert/${memberId}`
+  );
   return result.data;
 }

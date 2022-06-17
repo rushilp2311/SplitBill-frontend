@@ -1,14 +1,17 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { XIcon } from "@heroicons/react/outline";
+import { XIcon, ReplyIcon } from "@heroicons/react/outline";
 import Button from "components/Button";
-import { Fragment } from "react";
-import { authService } from "services";
+import GroupContext from "contexts/GroupContext";
+import ToastContext from "contexts/ToastContext";
+import { Fragment, useContext } from "react";
+import { authService, expenseService } from "services";
 
 type ModalProps = {
   children?: any;
   open: boolean;
   setOpen: (open: boolean) => void;
   expense: any;
+  settled?: boolean;
 };
 
 const ExpenseDetailModal = ({
@@ -16,8 +19,35 @@ const ExpenseDetailModal = ({
   open = false,
   setOpen,
   expense,
+  settled = false,
 }: ModalProps) => {
   const currentUser: any = authService.getCurrentUser();
+
+  const { showToast } = useContext(ToastContext);
+  const { fetchExpenses } = useContext(GroupContext);
+  const handleSettleExpense = async () => {
+    const response = await expenseService.settleExpense(
+      expense._id,
+      currentUser.id
+    );
+    if (response) {
+      showToast("Expense settled", "success");
+      setOpen(false);
+      await fetchExpenses(expense.group);
+    }
+  };
+  const handleRevertExpense = async () => {
+    const response = await expenseService.revertExpense(
+      expense._id,
+      currentUser.id
+    );
+
+    if (response) {
+      showToast("Expense reverted", "success");
+      setOpen(false);
+      await fetchExpenses(expense.group);
+    }
+  };
   return (
     <>
       {expense ? (
@@ -89,9 +119,13 @@ const ExpenseDetailModal = ({
                             </p>
                           </div>
                         ) : (
-                          <div className="text-red-500 font-semibold text-lg justify-self-center">
+                          <div
+                            className={`${
+                              settled ? "text-green-600" : "text-red-500"
+                            } font-semibold text-lg justify-self-center`}
+                          >
                             <p>
-                              You Owe{" "}
+                              {settled ? "Settled" : "You Owe"}{" "}
                               <span>
                                 ${" "}
                                 {
@@ -109,9 +143,23 @@ const ExpenseDetailModal = ({
                         )}
                       </div>
                     </div>
-                    {expense.paidBy._id !== currentUser.id && (
+                    {expense.paidBy._id !== currentUser.id && !settled && (
                       <div className="mt-3 p-3 flex justify-end border-t bg-gray-100">
-                        <Button type="success">Settle Up</Button>
+                        <Button type="success" onClick={handleSettleExpense}>
+                          Settle Up
+                        </Button>
+                      </div>
+                    )}
+
+                    {settled && (
+                      <div className="mt-3 p-3 flex justify-end border-t bg-gray-100">
+                        <Button
+                          type="danger"
+                          onClick={handleRevertExpense}
+                          leftIcon={<ReplyIcon className="w-5 mr-1" />}
+                        >
+                          Revert
+                        </Button>
                       </div>
                     )}
                   </Dialog.Panel>
