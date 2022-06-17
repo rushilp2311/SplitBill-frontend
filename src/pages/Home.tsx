@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 import { useContext } from "react";
 import GroupContext from "contexts/GroupContext";
 import { Loading } from "components";
+import { BarChart, PieChart } from "components/Graph";
 
 const Home = () => {
   const { groupList } = useContext(GroupContext);
@@ -111,43 +112,11 @@ const Home = () => {
         </div>
 
         <div className="grid-col-1 mt-6 grid space-y-3 sm:place-content-center sm:place-items-center sm:space-y-0 md:grid-cols-2">
-          <div className="min-w-full rounded border-2 p-2 sm:w-3/4 sm:min-w-0 md:pl-8">
-            <p className="flex items-center text-xl font-bold">
-              <RecieptRed className="mr-3 w-8" />
-              Your Owing
-            </p>
-            <div className="mt-6  w-full">
-              <p className="mb-2 text-sm font-semibold uppercase text-gray-500">
-                TOTAL OWING
-              </p>
-              <p className="align-middle text-5xl font-semibold text-red-600">
-                $400.00
-              </p>
-            </div>
-            <div className="mt-5 flex justify-end">
-              <Button type="link" rightIcon={<FiMaximize2 className="w-5" />}>
-                Expand
-              </Button>
-            </div>
+          <div className="min-w-full  md:pl-8">
+            <PieChart />
           </div>
-          <div className="min-w-full rounded border-2 p-2 sm:w-3/4 sm:min-w-0 md:pl-8">
-            <p className="flex items-center text-xl font-bold">
-              <CashGreen className="mr-3 w-8" />
-              Your Lending
-            </p>
-            <div className="mt-6  w-full">
-              <p className="mb-2 text-sm font-semibold uppercase text-gray-500">
-                TOTAL LENDING
-              </p>
-              <p className="align-middle text-5xl font-semibold text-green-600">
-                $400.00
-              </p>
-            </div>
-            <div className="mt-5 flex justify-end">
-              <Button type="link" rightIcon={<FiMaximize2 className="w-5" />}>
-                Expand
-              </Button>
-            </div>
+          <div className="min-w-full  md:pl-8">
+            <BarChart />
           </div>
         </div>
       </div>
