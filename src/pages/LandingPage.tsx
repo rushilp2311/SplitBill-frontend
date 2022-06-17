@@ -10,6 +10,7 @@ import HashNodeLogo from "../images/hashnode.png";
 import { ReactComponent as PieChart } from "../images/pie-chart.svg";
 import { ReactComponent as CircleGroup } from "../images/circle-group.svg";
 import DashboardImg from "../images/dashboard.png";
+import GroupImg from "../images/group.png";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
 
@@ -50,7 +51,7 @@ export default function LandingPage() {
         {/* Hero section */}
         <div className="relative">
           <div className="absolute inset-x-0 bottom-0" />
-          <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div className="relative sm:overflow-hidden">
               <div className="relative px-4 py-16 sm:px-6 sm:py-24 lg:py-32 lg:px-8">
                 <h1 className="text-center text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
@@ -61,11 +62,11 @@ export default function LandingPage() {
                     without any hassle
                   </span>
                 </h1>
-                <p className="mt-6 max-w-lg mx-auto text-center text-xl text-gray-500 sm:max-w-3xl">
+                <p className="mx-auto mt-6 max-w-lg text-center text-xl text-gray-500 sm:max-w-3xl">
                   Split bills with your friends easily and efficiently. Register
                   today with your friends
                 </p>
-                <div className="mt-10 max-w-sm mx-auto sm:max-w-10 sm:flex sm:justify-center">
+                <div className="sm:max-w-10 mx-auto mt-10 max-w-sm sm:flex sm:justify-center">
                   <Link to="/signup" className="w-full">
                     <Button width="w-full">Get Started</Button>
                   </Link>
@@ -77,8 +78,8 @@ export default function LandingPage() {
 
         {/* Logo Cloud */}
         <div>
-          <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
-            <p className="text-center text-sm font-semibold uppercase text-gray-500 tracking-wide">
+          <div className="mx-auto max-w-7xl py-16 px-4 sm:px-6 lg:px-8">
+            <p className="text-center text-sm font-semibold uppercase tracking-wide text-gray-500">
               Checkout the article on
             </p>
             <div className="mt-6">
@@ -90,11 +91,11 @@ export default function LandingPage() {
         </div>
 
         {/* Alternating Feature Sections */}
-        <div className="relative pt-16 pb-32 overflow-hidden">
+        <div className="relative overflow-hidden pt-16 pb-32">
           <div aria-hidden="true" className="absolute inset-x-0 top-0 h-48 " />
           <div className="relative">
-            <div className="lg:mx-auto lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-2 lg:grid-flow-col-dense lg:gap-24">
-              <div className="px-4 max-w-xl mx-auto sm:px-6 lg:py-16 lg:max-w-none lg:mx-0 lg:px-0">
+            <div className="lg:mx-auto lg:grid lg:max-w-7xl lg:grid-flow-col-dense lg:grid-cols-2 lg:gap-24 lg:px-8">
+              <div className="mx-auto max-w-xl px-4 sm:px-6 lg:mx-0 lg:max-w-none lg:py-16 lg:px-0">
                 <div>
                   <div>
                     <PieChart className="h-12 w-12" />
@@ -118,7 +119,7 @@ export default function LandingPage() {
                 </div>
               </div>
               <div className="mt-12 sm:mt-16 lg:mt-0">
-                <div className="pl-4 -mr-48 sm:pl-6 md:-mr-16 lg:px-0 lg:m-0 lg:relative lg:h-full">
+                <div className="-mr-48 pl-4 sm:pl-6 md:-mr-16 lg:relative lg:m-0 lg:h-full lg:px-0">
                   <img
                     className="w-full rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 lg:absolute lg:left-0 lg:h-full lg:w-auto lg:max-w-none"
                     src={DashboardImg}
@@ -129,8 +130,8 @@ export default function LandingPage() {
             </div>
           </div>
           <div className="mt-24">
-            <div className="lg:mx-auto lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-2 lg:grid-flow-col-dense lg:gap-24">
-              <div className="px-4 max-w-xl mx-auto sm:px-6 lg:py-32 lg:max-w-none lg:mx-0 lg:px-0 lg:col-start-2">
+            <div className="lg:mx-auto lg:grid lg:max-w-7xl lg:grid-flow-col-dense lg:grid-cols-2 lg:gap-24 lg:px-8">
+              <div className="mx-auto max-w-xl px-4 sm:px-6 lg:col-start-2 lg:mx-0 lg:max-w-none lg:py-32 lg:px-0">
                 <div>
                   <div>
                     <CircleGroup />
@@ -149,11 +150,11 @@ export default function LandingPage() {
                   </div>
                 </div>
               </div>
-              <div className="mt-12 sm:mt-16 lg:mt-0 lg:col-start-1">
-                <div className="pr-4 -ml-48 sm:pr-6 md:-ml-16 lg:px-0 lg:m-0 lg:relative lg:h-full">
+              <div className="mt-12 sm:mt-16 lg:col-start-1 lg:mt-0">
+                <div className="-ml-48 pr-4 sm:pr-6 md:-ml-16 lg:relative lg:m-0 lg:h-full lg:px-0">
                   <img
                     className="w-full rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 lg:absolute lg:right-0 lg:h-full lg:w-auto lg:max-w-none"
-                    src={DashboardImg}
+                    src={GroupImg}
                     alt="dashboard"
                   />
                 </div>
@@ -164,8 +165,8 @@ export default function LandingPage() {
 
         {/* Gradient Feature Section */}
         <div className="bg-gradient-to-r from-blue-800 to-indigo-700">
-          <div className="max-w-4xl mx-auto px-4 py-16 sm:px-6 sm:pt-20 sm:pb-24 lg:max-w-7xl lg:pt-24 lg:px-8">
-            <h2 className="text-3xl font-extrabold text-white tracking-tight">
+          <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 sm:pt-20 sm:pb-24 lg:max-w-7xl lg:px-8 lg:pt-24">
+            <h2 className="text-3xl font-extrabold tracking-tight text-white">
               Our Features
             </h2>
             <p className="mt-4 max-w-3xl text-lg text-gray-200">
@@ -176,7 +177,7 @@ export default function LandingPage() {
               {features.map((feature) => (
                 <div key={feature.name}>
                   <div>
-                    <span className="flex items-center justify-center h-12 w-12 rounded-md bg-white bg-opacity-10">
+                    <span className="flex h-12 w-12 items-center justify-center rounded-md bg-white bg-opacity-10">
                       <feature.icon
                         className="h-6 w-6 text-white"
                         aria-hidden="true"
@@ -202,13 +203,13 @@ export default function LandingPage() {
         <h2 id="footer-heading" className="sr-only">
           Footer
         </h2>
-        <div className="max-w-7xl mx-auto pt-16 pb-8 px-4 sm:px-6 lg:pt-24 lg:px-8">
+        <div className="mx-auto max-w-7xl px-4 pt-16 pb-8 sm:px-6 lg:px-8 lg:pt-24">
           <div className="xl:grid xl:grid-cols-3 xl:gap-8">
             <div className="mt-12 xl:mt-0">
-              <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">
+              <h3 className="text-sm font-semibold uppercase tracking-wider text-gray-400">
                 Follow Me
               </h3>
-              <div className="mt-6 w-fit flex justify-between items-center">
+              <div className="mt-6 flex w-fit items-center justify-between">
                 <div>
                   <a
                     href="https://github.com/rushilp2311"
@@ -218,7 +219,7 @@ export default function LandingPage() {
                     <svg
                       fill="currentColor"
                       viewBox="0 0 24 24"
-                      className="w-10 h-10 text-gray-600 mr-4"
+                      className="mr-4 h-10 w-10 text-gray-600"
                     >
                       <path
                         fillRule="evenodd"
@@ -239,7 +240,7 @@ export default function LandingPage() {
             </div>
           </div>
           <div className="mt-12 border-t border-gray-200 pt-8 md:flex md:items-center md:justify-between lg:mt-16">
-            <p className="mt-8 text-base text-gray-400 md:mt-0 md:order-1">
+            <p className="mt-8 text-base text-gray-400 md:order-1 md:mt-0">
               Heavily inspired by Tailwind UI.
             </p>
           </div>

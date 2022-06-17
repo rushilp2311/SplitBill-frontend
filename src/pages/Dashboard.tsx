@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
-import { BellIcon, MenuIcon } from "@heroicons/react/outline";
+import { MenuIcon } from "@heroicons/react/outline";
 import Sidebar from "components/Sidebar";
 import Profile from "components/Profile";
 import { Toast } from "components";
@@ -35,7 +35,6 @@ export default function Dashboard() {
                   className="bg-white p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                 >
                   <span className="sr-only">View notifications</span>
-                  <BellIcon className="h-6 w-6" aria-hidden="true" />
                 </button>
                 <Profile />
               </div>

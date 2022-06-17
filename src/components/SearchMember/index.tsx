@@ -78,7 +78,6 @@ const SearchMember = ({
     }
   };
 
-  // TODO: update the error messages
   const handleAddMember = (e: any) => {
     if (memberList.length === 5) {
       showToast("Maximum 5 members are allowed in the group", "warning");
@@ -91,7 +90,6 @@ const SearchMember = ({
       setEmail("");
     } else {
       setMemberList([...memberList, searchedUser]);
-
       handleAdd(searchedUser.id);
       showToast("Member added", "success");
       setSearchedUser({});
@@ -134,7 +132,7 @@ const SearchMember = ({
         </div>
       </div>
       {foundUser && (
-        <div className="text-green-700 mt-1">
+        <div className="mt-1 text-green-700">
           Do you want to add this user to the group?
         </div>
       )}

@@ -10,7 +10,7 @@ import GroupContext from "contexts/GroupContext";
 import ToastContext from "contexts/ToastContext";
 import { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { groupService } from "services";
+import { authService, groupService } from "services";
 import EditMembers from "./EditMembers";
 import ExpenseList from "./Expense/ExpenseList";
 
@@ -32,6 +32,8 @@ const GroupDetail = () => {
 
   const { showToast } = useContext(ToastContext);
 
+  const currentUser: any = authService.getCurrentUser();
+
   useEffect(() => {
     if (groupId) {
       fetchGroupById(groupId);
@@ -46,17 +48,31 @@ const GroupDetail = () => {
 
   const handleAddMember = async (memberId?: string) => {
     if (memberId) {
-      await groupService.addMember(group._id, memberId);
+      const result = await groupService.addMember(group._id, memberId);
+      if (result) {
+        window.location.reload();
+      }
     }
   };
 
   const handleMemberDelete = async (memberId?: string) => {
+    if (group.members.length === 1) {
+      showToast("Cannot delete last member", "error");
+      setOpen(false);
+      return;
+    }
     if (memberId) {
       const result = await groupService.removeMember(group._id, memberId);
       if (result) {
         showToast("Member removed", "success");
         fetchGroupById(groupId);
         setOpen(false);
+
+        if (memberId === currentUser.id) {
+          window.location.href = "/";
+        } else {
+          window.location.reload();
+        }
         return;
       }
     }
@@ -67,7 +83,7 @@ const GroupDetail = () => {
 
   return (
     <>
-      <div className="h-[calc(100vh-64px)] pt-3 flex-1 px-4 flex flex-col  sm:px-6 xl:max-w-6xl lg:mx-auto lg:px-8">
+      <div className="flex h-[calc(100vh-64px)] flex-1 flex-col px-4 pt-3  sm:px-6 lg:mx-auto lg:px-8 xl:max-w-6xl">
         {/* Page Header */}
         <div>
           <Breadcrumb
@@ -77,19 +93,19 @@ const GroupDetail = () => {
             ]}
           />
           <div className="mt-2 md:flex md:items-center md:justify-between">
-            <div className="flex-1 min-w-0">
-              <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
+            <div className="min-w-0 flex-1">
+              <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl">
                 {group.name}
               </h2>
             </div>
-            <div className="hidden md:flex mt-4 flex-shrink-0 md:mt-0 md:ml-4">
+            <div className="mt-4 hidden flex-shrink-0 md:mt-0 md:ml-4 md:flex">
               <Link to={`/group/${group._id}/addexpense`}>
                 <Button leftIcon={<PlusCircleIcon className="w-5" />}>
                   Add Expense
                 </Button>
               </Link>
             </div>
-            <div className="flex-shrink-0 flex md:hidden md:mt-0 md:ml-4">
+            <div className="flex flex-shrink-0 md:mt-0 md:ml-4 md:hidden">
               <Link to="/addgroup">
                 <Button>
                   <PlusCircleIcon className="w-5" />
@@ -98,10 +114,10 @@ const GroupDetail = () => {
             </div>
           </div>
         </div>
-        <div className="h-[calc(100vh-180px)] pt-6 sm:grid sm:grid-cols-4 sm:space-x-4 flex flex-col">
-          <div className="sm:col-span-2 overflow-y-auto w-full">
+        <div className="flex h-[calc(100vh-180px)] flex-col pt-6 sm:grid sm:grid-cols-4 sm:space-x-4">
+          <div className="w-full overflow-y-auto sm:col-span-2">
             {/* Expense List */}
-            <p className="uppercase mb-2 text-gray-500 font-medium text-sm">
+            <p className="mb-2 text-sm font-medium uppercase text-gray-500">
               Expense List
             </p>
             <Tabs
@@ -123,9 +139,9 @@ const GroupDetail = () => {
               ]}
             />
           </div>
-          <div className="flex flex-col sm:col-span-2 justify-start">
+          <div className="flex flex-col justify-start sm:col-span-2">
             <div className="my-2">
-              <p className="uppercase text-gray-500 font-medium text-sm">
+              <p className="text-sm font-medium uppercase text-gray-500">
                 Add Member
               </p>
               <SearchMember
@@ -134,20 +150,20 @@ const GroupDetail = () => {
                 handleAdd={handleAddMember}
               />
             </div>
-            <div className="border shadow-sm rounded my-2 ">
-              <p className=" uppercase font-semibold p-2 text-sm text-white rounded-t bg-gray-800">
+            <div className="my-2 rounded border shadow-sm ">
+              <p className=" rounded-t bg-gray-800 p-2 text-sm font-semibold uppercase text-white">
                 Members
               </p>
-              <div className="p-2 divide-y-2">
+              <div className="divide-y-2 p-2">
                 {memberList &&
                   memberList.length > 0 &&
                   memberList.map((member: any) => (
                     <div
                       key={member._id}
-                      className="flex justify-between items-center"
+                      className="flex items-center justify-between"
                     >
                       <div>
-                        <p className="text-sm text-gray-700 font-semibold mt-1 ">
+                        <p className="mt-1 text-sm font-semibold text-gray-700 ">
                           {member.name}
                         </p>
                         <p className="text-sm text-gray-600">{member.email}</p>
@@ -166,8 +182,8 @@ const GroupDetail = () => {
                   ))}
               </div>
             </div>
-            <div className="mt-6 p-2 border-2 border-dashed border-red-200 shadow-sm rounded my-2">
-              <p className="uppercase text-red-600 font-semibold text-sm">
+            <div className="my-2 mt-6 rounded border-2 border-dashed border-red-200 p-2 shadow-sm">
+              <p className="text-sm font-semibold uppercase text-red-600">
                 Danger Zone
               </p>
 

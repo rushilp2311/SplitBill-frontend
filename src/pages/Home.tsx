@@ -1,8 +1,14 @@
-import { ExternalLinkIcon, UserGroupIcon } from "@heroicons/react/outline";
-import { FiArrowUpRight, FiMaximize2 } from "react-icons/fi";
+import {
+  ExternalLinkIcon,
+  PlusCircleIcon,
+  UserGroupIcon,
+} from "@heroicons/react/outline";
+import { FiMaximize2 } from "react-icons/fi";
 import Button from "components/Button";
 import { ReactComponent as RecieptRed } from "../images/reciept-red.svg";
 import { ReactComponent as CashGreen } from "../images/cash-green.svg";
+import { ReactComponent as Group } from "../images/group.svg";
+import { ReactComponent as MoneyBag } from "../images/MoneyBag.svg";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import GroupContext from "contexts/GroupContext";
@@ -11,16 +17,12 @@ import { Loading } from "components";
 const Home = () => {
   const { groupList } = useContext(GroupContext);
 
-  const calculateRemainingMembers = (membersCount: number) => {
-    return membersCount - 3;
-  };
-
   return (
-    <div className="my-10 flex-1 px-4 sm:px-6 xl:max-w-6xl lg:mx-auto lg:px-8">
+    <div className="my-10 flex-1 px-4 sm:px-6 lg:mx-auto lg:px-8 xl:max-w-6xl">
       {/* Group Overview */}
       <div className="my-12">
-        <div className="flex justify-between pb-6 border-b">
-          <h1 className="font-bold text-2xl">Your Groups</h1>
+        <div className="flex justify-between border-b pb-6">
+          <h1 className="text-2xl font-bold">Your Groups</h1>
           {groupList.length > 3 && (
             <Link to="/groups">
               <Button
@@ -32,55 +34,71 @@ const Home = () => {
             </Link>
           )}
         </div>
-        {groupList.length > 1 ? (
-          <div className="mt-6 w-full grid lg:grid-cols-3 md:grid-cols-2 space-y-3 sm:space-y-0 sm:place-content-center sm:place-items-center">
+        {groupList ? (
+          <div className="mt-6 grid w-full space-y-3 sm:place-content-center sm:place-items-center sm:space-y-0 md:grid-cols-2 lg:grid-cols-3">
             {groupList.slice(0, 3).map((group) => (
               <div
                 key={group._id}
-                className="h-fit py-3 flex flex-col justify-between border-2 rounded p-2 px-6 w-3/4 sm:min-w-0 min-w-full"
+                className="flex h-56 w-3/4 min-w-full flex-col justify-between  rounded border-2 sm:min-w-0"
               >
-                <div className="mb-5 flex justify-between items-center border-b pb-2">
-                  <p className="font-bold text-xl flex items-center ">
-                    <UserGroupIcon className="w-6 mr-2" />
-                    {group.name}
-                  </p>
+                <div className="p-2 py-3 px-6">
+                  <div className="mb-3 flex flex-col  justify-between border-b pb-2">
+                    <p className=" truncate text-2xl font-bold text-gray-800 ">
+                      {group.name}
+                    </p>
+                    <p className="mt-2 truncate text-sm text-gray-500">
+                      {group.description}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="flex items-center text-sm font-semibold uppercase text-gray-500">
+                      <span className="mr-2">
+                        <MoneyBag className="h-6 w-6" />
+                      </span>
+                      Total Expenses :
+                      <span className="ml-1 text-2xl font-semibold text-gray-800">
+                        {group.totalExpenses}
+                      </span>
+                    </p>
+                  </div>
+                  <div className="mt-3 flex flex-col items-start">
+                    <p className="flex items-center text-sm font-semibold uppercase text-gray-500">
+                      <span className="mr-2">
+                        <Group className="h-6 w-6" />
+                      </span>
+                      Members :
+                      <span className="ml-1 text-2xl font-semibold text-gray-800">
+                        {group.members.length}
+                      </span>
+                    </p>
+                  </div>
+                </div>
+                <div className="flex justify-end bg-gray-100 p-2">
                   <Link to={`/group/detail/${group._id}`}>
-                    <Button type="icon">
-                      <ExternalLinkIcon className="w-5 text-gray-500" />
+                    <Button
+                      type="link"
+                      rightIcon={<ExternalLinkIcon className="w-5" />}
+                    >
+                      Open
                     </Button>
                   </Link>
                 </div>
-                <div className="mb-4">
-                  <p className="uppercase text-sm font-semibold text-gray-500">
-                    Total Expenses
-                  </p>
-                  <p className="text-2xl font-semibold">
-                    {group.totalExpenses}
-                  </p>
-                </div>
-
-                <div className="flex flex-col items-start">
-                  <p className="uppercase text-sm mb-3 font-semibold text-gray-500">
-                    Members:{" "}
-                    <span className="ml-2">{group.members.length}</span>
-                  </p>
-                  {/* <div className="flex -space-x-1 relative z-0 overflow-hidden">
-                  {group.members.length > 3 && (
-                    <p className="flex justify-center items-center border z-40 border-blue-800 bg-blue-200 h-8 w-8 font-semibold text-blue-700 rounded-full">
-                      +{calculateRemainingMembers(group.membersCount)}
-                    </p>
-                  )}
-                  {[...Array(3).keys()].map((i) => (
-                    <img
-                      className="relative z-30 inline-block h-8 w-8 rounded-full"
-                      src="https://xsgames.co/randomusers/avatar.php?g=female"
-                      alt=""
-                    />
-                  ))}
-                </div> */}
-                </div>
               </div>
             ))}
+            {groupList.length < 3 && (
+              <>
+                <Link to="/addgroup" className="h-56 sm:w-3/4">
+                  <div className="flex h-56 min-w-full cursor-pointer flex-col items-center  justify-center rounded border-2 border-dashed hover:bg-gray-50 sm:min-w-0">
+                    <p>
+                      <PlusCircleIcon className="mb-4 w-10 stroke-1 text-gray-600" />{" "}
+                    </p>
+                    <p className="text-2xl font-medium text-gray-600">
+                      Add Group
+                    </p>
+                  </div>
+                </Link>
+              </>
+            )}
           </div>
         ) : (
           <Loading />
@@ -88,21 +106,21 @@ const Home = () => {
       </div>
       {/* Expense Overview */}
       <div className="mt-12">
-        <div className="pb-6 border-b">
-          <h1 className="font-bold text-2xl">Expense Overview</h1>
+        <div className="border-b pb-6">
+          <h1 className="text-2xl font-bold">Expense Overview</h1>
         </div>
 
-        <div className="mt-6 grid md:grid-cols-2 grid-col-1 space-y-3 sm:space-y-0 sm:place-content-center sm:place-items-center">
-          <div className="border-2 rounded p-2 sm:w-3/4 sm:min-w-0 min-w-full md:pl-8">
-            <p className="flex items-center font-bold text-xl">
-              <RecieptRed className="w-8 mr-3" />
+        <div className="grid-col-1 mt-6 grid space-y-3 sm:place-content-center sm:place-items-center sm:space-y-0 md:grid-cols-2">
+          <div className="min-w-full rounded border-2 p-2 sm:w-3/4 sm:min-w-0 md:pl-8">
+            <p className="flex items-center text-xl font-bold">
+              <RecieptRed className="mr-3 w-8" />
               Your Owing
             </p>
-            <div className="w-full  mt-6">
-              <p className="text-gray-500 font-semibold text-sm mb-2 uppercase">
+            <div className="mt-6  w-full">
+              <p className="mb-2 text-sm font-semibold uppercase text-gray-500">
                 TOTAL OWING
               </p>
-              <p className="align-middle text-5xl text-red-600 font-semibold">
+              <p className="align-middle text-5xl font-semibold text-red-600">
                 $400.00
               </p>
             </div>
@@ -112,16 +130,16 @@ const Home = () => {
               </Button>
             </div>
           </div>
-          <div className="border-2 rounded p-2 sm:w-3/4 sm:min-w-0 min-w-full md:pl-8">
-            <p className="flex items-center font-bold text-xl">
-              <CashGreen className="w-8 mr-3" />
+          <div className="min-w-full rounded border-2 p-2 sm:w-3/4 sm:min-w-0 md:pl-8">
+            <p className="flex items-center text-xl font-bold">
+              <CashGreen className="mr-3 w-8" />
               Your Lending
             </p>
-            <div className="w-full  mt-6">
-              <p className="text-gray-500 font-semibold text-sm mb-2 uppercase">
+            <div className="mt-6  w-full">
+              <p className="mb-2 text-sm font-semibold uppercase text-gray-500">
                 TOTAL LENDING
               </p>
-              <p className="align-middle text-5xl text-green-600 font-semibold">
+              <p className="align-middle text-5xl font-semibold text-green-600">
                 $400.00
               </p>
             </div>
