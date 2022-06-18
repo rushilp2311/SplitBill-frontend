@@ -1,61 +1,55 @@
-import React, { PureComponent } from "react";
-import { PieChart, Pie, Cell, Legend, Tooltip } from "recharts";
+import React, { useEffect } from "react";
+import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
+import { userService } from "services";
 
-const data = [
-  { name: "Lent", value: 400 },
-  { name: "Owe", value: 300 },
-];
-//
-const COLORS = ["#86EFAC", "#FCA5A5"];
-const TEXT_COLORS = ["#065F46", "#B91C1C"];
-const RADIAN = Math.PI / 180;
+const COLORS = ["#0088FE", "#FFBB28"];
 export default function Example() {
-  const renderCustomizedLabel = ({
-    cx,
-    cy,
-    midAngle,
-    innerRadius,
-    outerRadius,
-    percent,
-    index,
-  }: any) => {
-    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-    const x = cx + radius * Math.cos(-midAngle * RADIAN);
-    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+  const [data, setData] = React.useState([{ name: "", value: 0 }]);
 
-    return (
-      <text
-        x={x}
-        y={y}
-        fill={TEXT_COLORS[index]}
-        textAnchor={x > cx ? "start" : "end"}
-        dominantBaseline="central"
-        className="font-semibold"
-      >
-        {`${data[index].value}`}
-      </text>
-    );
-  };
+  useEffect(() => {
+    const fetchExpenses = async () => {
+      const result = await userService.findExpenseForUser();
+      setData([
+        { name: "Lent", value: Number(result.lent) },
+        { name: "Owe", value: Math.abs(+result.owe) },
+      ]);
+    };
+    fetchExpenses();
+  }, []);
 
   return (
     <div className="flex flex-col items-center">
       <p className="text-xl font-semibold ">Lent vs Owe</p>
 
-      <PieChart width={300} height={300}>
-        <Pie
-          data={data}
-          label={renderCustomizedLabel}
-          outerRadius={130}
-          labelLine={false}
-          fill="#8884d8"
-          dataKey="value"
-        >
-          {data.map((entry, index) => (
-            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-          ))}
-        </Pie>
-        <Tooltip />
-      </PieChart>
+      {data[0].value === 0 && data[1].value === 0 ? (
+        <div className="flex h-72 items-center justify-center">
+          <div>
+            <h1 className="text-xl font-semibold">
+              <span className="mr-2 text-4xl">🏎</span> No Expenses
+            </h1>
+            <p className="mt-2 text-gray-600">Pie-chart not available </p>
+          </div>
+        </div>
+      ) : (
+        <PieChart width={300} height={300}>
+          <Pie
+            data={data}
+            outerRadius={130}
+            fill="#8884d8"
+            dataKey="value"
+            label
+          >
+            {data.map((entry, index) => (
+              <Cell
+                key={`cell-${index}`}
+                fill={COLORS[index % COLORS.length]}
+              />
+            ))}
+          </Pie>
+          <Legend />
+          <Tooltip />
+        </PieChart>
+      )}
     </div>
   );
 }

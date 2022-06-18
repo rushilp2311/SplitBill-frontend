@@ -1,4 +1,5 @@
-import React, { PureComponent } from "react";
+import GroupContext from "contexts/GroupContext";
+import React, { useContext } from "react";
 import {
   BarChart,
   Bar,
@@ -7,7 +8,6 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
-  ResponsiveContainer,
 } from "recharts";
 
 const data = [
@@ -55,35 +55,14 @@ const data = [
   },
 ];
 
-const getIntroOfPage = (label: string) => {
-  if (label === "Page A") {
-    return "Page A is about men's clothing";
-  }
-  if (label === "Page B") {
-    return "Page B is about women's dress";
-  }
-  if (label === "Page C") {
-    return "Page C is about women's bag";
-  }
-  if (label === "Page D") {
-    return "Page D is about household goods";
-  }
-  if (label === "Page E") {
-    return "Page E is about food";
-  }
-  if (label === "Page F") {
-    return "Page F is about baby food";
-  }
-  return "";
-};
 
 const CustomTooltip = ({ active, payload, label }: any) => {
+  console.log(payload, active);
   if (active && payload && payload.length) {
     return (
-      <div className="custom-tooltip">
-        <p className="label">{`${label} : ${payload[0].value}`}</p>
-        <p className="intro">{getIntroOfPage(label)}</p>
-        <p className="desc">Anything you want can be displayed here.</p>
+      <div className="custom-tooltip rounded border-2 bg-white p-2 shadow-md">
+        <p className="label font-semibold">{`${label} : ${payload[0].value}`}</p>
+        <p className="desc text-gray-500">{`${payload[0].payload.description}`}.</p>
       </div>
     );
   }
@@ -91,14 +70,23 @@ const CustomTooltip = ({ active, payload, label }: any) => {
   return null;
 };
 
+const getData = (groupList: any) => {
+  return groupList.map((group: any) => ({
+    name: group.name,
+    count: group.totalExpenses,
+    description: group.description,
+  }));
+};
+
 export default function Example() {
+  const { groupList } = useContext(GroupContext);
   return (
     <div className="mt-3 flex flex-col items-center">
-      <p className="text-xl font-semibold  pb-6"> Group vs Expense Count</p>
+      <p className="pb-6 text-xl  font-semibold"> Group vs Expense Count</p>
       <BarChart
         width={500}
         height={300}
-        data={data}
+        data={getData(groupList)}
         margin={{
           top: 5,
           right: 30,
@@ -108,10 +96,10 @@ export default function Example() {
       >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="name" />
-        <YAxis />
+        <YAxis allowDecimals={false} />
         <Tooltip content={<CustomTooltip />} />
         <Legend />
-        <Bar dataKey="pv" barSize={20} fill="#8d89d8" />
+        <Bar dataKey="count" barSize={20} fill="#8d89d8" />
       </BarChart>
     </div>
   );
