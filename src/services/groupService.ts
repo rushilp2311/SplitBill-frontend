@@ -30,3 +30,10 @@ export async function addMember(groupId: string, memberId: string) {
   );
   return result.data;
 }
+
+export async function deleteMember(groupId: string) { 
+  const result = await http.delete(
+    `${apiEndpoint}/${groupId}`
+  );
+  return result;
+}

@@ -8,7 +8,8 @@ import Button from "components/Button";
 import Loading from "components/Loading";
 import GroupContext from "contexts/GroupContext";
 import ToastContext from "contexts/ToastContext";
-import { useContext, useEffect, useState } from "react";
+import { DeleteGroupModal } from "pages";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { authService, groupService } from "services";
 import EditMembers from "./EditMembers";
@@ -18,6 +19,8 @@ const GroupDetail = () => {
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [deleteMember, setDeleteMember] = useState("");
+
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
   const { groupId } = useParams();
   const {
@@ -45,6 +48,10 @@ const GroupDetail = () => {
       fetchExpenses(groupId);
     }
   }, []);
+
+  const groupDeleteTitle = useMemo(() => {
+    return `Delete ${group.name}`;
+  }, [group]);
 
   const handleAddMember = async (memberId?: string) => {
     if (memberId) {
@@ -76,6 +83,23 @@ const GroupDetail = () => {
         return;
       }
     }
+    showToast("Something went wrong", "error");
+  };
+
+  const handleGroupDelete = async () => {
+    if (groupId) {
+      const result: any = await groupService.deleteMember(groupId);
+
+      if (result.data) {
+        showToast("Group Deleted", "success");
+        setOpenDeleteModal(false);
+        setTimeout(() => {
+          window.location.href = "/groups";
+        }, 500);
+        return;
+      }
+    }
+
     showToast("Something went wrong", "error");
   };
 
@@ -187,7 +211,12 @@ const GroupDetail = () => {
                 Danger Zone
               </p>
 
-              <Button type="secondaryDanger" width="w-full" margin="mt-4">
+              <Button
+                type="secondaryDanger"
+                width="w-full"
+                margin="mt-4"
+                onClick={() => setOpenDeleteModal(true)}
+              >
                 Delete Group
               </Button>
             </div>
@@ -203,6 +232,17 @@ const GroupDetail = () => {
           buttonText="Delete"
           buttonType="danger"
           handleDelete={handleMemberDelete}
+        />
+        <DeleteGroupModal
+          title={groupDeleteTitle}
+          memberId={groupId}
+          icon={<ExclamationIcon className="w-5 text-red-600" />}
+          open={openDeleteModal}
+          setOpen={setOpenDeleteModal}
+          text="Are you sure you want to delete this group? All expense related to this group will be deleted."
+          buttonText="Delete"
+          buttonType="danger"
+          handleDelete={handleGroupDelete}
         />
       </div>
     </>

@@ -10,7 +10,7 @@ import { findUserByEmail } from "services/userService";
 type SearchMemberProps = {
   memberList: MemberType[];
   setMemberList?: any;
-  handleAdd?: any;
+  handleAdd: ((memberId?: string) => Promise<void>) | null;
 };
 
 const SearchMember = ({
@@ -90,7 +90,9 @@ const SearchMember = ({
       setEmail("");
     } else {
       setMemberList([...memberList, searchedUser]);
-      handleAdd(searchedUser.id);
+      if (handleAdd) {
+        handleAdd(searchedUser.id);
+      }
       showToast("Member added", "success");
       setSearchedUser({});
       setFoundUser(false);

@@ -33,7 +33,7 @@ const Home = () => {
             {groupList.slice(0, 3).map((group) => (
               <div
                 key={group._id}
-                className="flex h-56 w-3/4 min-w-full flex-col justify-between rounded border-2 shadow sm:min-w-0"
+                className="flex h-56 w-3/4 min-w-full flex-col justify-between rounded border-2 shadow-sm sm:min-w-0"
               >
                 <div className="p-2 py-3 px-6">
                   <div className="mb-3 flex flex-col  justify-between border-b pb-2">
@@ -81,7 +81,7 @@ const Home = () => {
             ))}
             {groupList.length < 3 && (
               <>
-                <Link to="/addgroup" className="h-56 shadow sm:w-3/4">
+                <Link to="/addgroup" className="h-56 shadow-sm sm:w-3/4">
                   <div className="flex h-56 min-w-full cursor-pointer flex-col items-center  justify-center rounded border-2 border-dashed hover:bg-gray-50 sm:min-w-0">
                     <p>
                       <PlusCircleIcon className="mb-4 w-10 stroke-1 text-gray-600" />{" "}

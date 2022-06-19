@@ -143,6 +143,7 @@ const AddGroup = () => {
           <p className="text-xl font-bold">Add Members</p>
           <div className="mt-2">
             <SearchMember
+              handleAdd={null}
               memberList={memberList}
               setMemberList={setMemberList}
             />

@@ -3,7 +3,8 @@ import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 import { userService } from "services";
 
 const COLORS = ["#0088FE", "#FFBB28"];
-export default function Example() {
+
+export default function PieGraph() {
   const [data, setData] = React.useState([{ name: "", value: 0 }]);
 
   useEffect(() => {
@@ -21,13 +22,14 @@ export default function Example() {
     <div className="flex flex-col items-center">
       <p className="text-xl font-semibold ">Lent vs Owe</p>
 
-      {data[0].value === 0 && data[1].value === 0 ? (
+      {data[1] && data[0] && data[0].value === 0 && data?.[1].value === 0 ? (
         <div className="flex h-72 items-center justify-center">
           <div>
-            <h1 className="text-xl font-semibold">
-              <span className="mr-2 text-4xl">🏎</span> No Expenses
+            <h1 className="flex items-center justify-center text-xl font-semibold">
+              <span className="mr-2 mb-6 block text-4xl">🏎</span>{" "}
+              <span className="block">No Expense Data</span>
             </h1>
-            <p className="mt-2 text-gray-600">Pie-chart not available </p>
+            <p className=" text-gray-600">Pie-chart not available </p>
           </div>
         </div>
       ) : (
@@ -38,6 +40,7 @@ export default function Example() {
             fill="#8884d8"
             dataKey="value"
             label
+            labelLine={false}
           >
             {data.map((entry, index) => (
               <Cell
