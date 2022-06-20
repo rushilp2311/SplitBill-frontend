@@ -17,7 +17,7 @@ const Breadcrumb = ({ paths }: any) => {
         </Link>
       </nav>
       <nav className="hidden sm:flex" aria-label="Breadcrumb">
-        <ol role="list" className="flex items-center space-x-4">
+        <ol className="flex items-center space-x-4">
           <li>
             <div className="flex">
               <Link
