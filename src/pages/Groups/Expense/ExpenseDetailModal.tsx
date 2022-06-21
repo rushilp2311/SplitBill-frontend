@@ -49,7 +49,6 @@ const ExpenseDetailModal = ({
       showToast("Expense reverted", "success");
       setOpen(false);
       await fetchExpenses(expense.group);
-      navigate(0);
     }
   };
 
@@ -61,7 +60,7 @@ const ExpenseDetailModal = ({
       setSettledMembers(result);
     }
 
-    if (expense) {
+    if (expense && expense.settledMembers.length > 0) {
       fetchUser();
     }
   }, [expense]);
@@ -162,30 +161,33 @@ const ExpenseDetailModal = ({
                       </div>
 
                       <div className="mt-6">
-                        <div>
-                          <p className="my-2 border-b pb-1 font-semibold uppercase text-gray-700">
-                            Settled By{" "}
-                          </p>
+                        {settledMembers.length > 0 ? (
+                          <div>
+                            <p className="my-2 border-b pb-1 font-semibold uppercase text-gray-700">
+                              Settled By{" "}
+                            </p>
 
-                          {settledMembers.length > 0 ? (
-                            settledMembers.map((member) => {
+                            {settledMembers.map((member) => {
                               return (
-                                <p className="flex items-center">
+                                <p
+                                  className="flex items-center"
+                                  key={member._id}
+                                >
                                   <span className="mr-1 rounded-full bg-emerald-500">
                                     <CheckCircleIcon className="w-5 text-white" />
                                   </span>
                                   <span>{member.name}</span>
                                 </p>
                               );
-                            })
-                          ) : (
-                            <>
-                              <p className="uppercase text-gray-700">
-                                No one settled yet
-                              </p>
-                            </>
-                          )}
-                        </div>
+                            })}
+                          </div>
+                        ) : (
+                          <>
+                            <p className="text-sm font-semibold uppercase text-gray-700">
+                              No one settled yet
+                            </p>
+                          </>
+                        )}
                       </div>
                     </div>
                     {expense.paidBy._id !== currentUser.id && !settled && (
