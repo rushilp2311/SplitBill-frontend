@@ -39,7 +39,6 @@ export default function PieGraph() {
             outerRadius={130}
             fill="#8884d8"
             dataKey="value"
-            label
             labelLine={false}
           >
             {data.map((entry, index) => (

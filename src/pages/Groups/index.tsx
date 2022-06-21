@@ -79,26 +79,32 @@ const Groups = () => {
                 <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
                   <div className="overflow-hidden rounded border-b border-gray-200 shadow">
                     <table className="min-w-full divide-y divide-gray-200">
-                      <thead className="bg-gray-200">
+                      <thead className="bg-gray-800">
                         <tr>
                           <th
                             scope="col"
-                            className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-700"
+                            className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-white"
                           >
                             Name
                           </th>
                           <th
                             scope="col"
-                            className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-700"
+                            className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-white"
                           >
                             Description
                           </th>
 
                           <th
                             scope="col"
-                            className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-700"
+                            className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-white"
                           >
                             Members
+                          </th>
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-white"
+                          >
+                            Total Expenses
                           </th>
                           <th scope="col" className="relative px-6 py-3">
                             <span className="sr-only">Edit</span>
@@ -117,10 +123,20 @@ const Groups = () => {
                             <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
                               {group.members?.length}
                             </td>
+                            <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
+                              {group?.totalExpenses}
+                            </td>
 
                             <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
                               <Link to={`/group/detail/${group._id}`}>
-                                <Button type="link">Open</Button>
+                                <Button
+                                  type="link"
+                                  rightIcon={
+                                    <ChevronRightIcon className="w-5" />
+                                  }
+                                >
+                                  Open{" "}
+                                </Button>
                               </Link>
                             </td>
                           </tr>

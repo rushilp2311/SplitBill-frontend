@@ -4,8 +4,12 @@ import {
   HomeIcon,
   XIcon,
   UserGroupIcon,
+  GlobeAltIcon,
 } from "@heroicons/react/outline";
 import Logo from "components/Logo";
+import LinkedIn from "../images/Linkedin.png";
+import Github from "../images/GitHub_Logo.png";
+import Hashnode from "../images/hashnode.png";
 import { classNames } from "utils";
 import { Link, useLocation } from "react-router-dom";
 
@@ -88,7 +92,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: any) => {
                 <Logo />
               </div>
               <nav
-                className="mt-20 h-full flex-shrink-0 divide-y divide-gray-300 overflow-y-auto"
+                className="mt-20 flex-1 flex-shrink-0 divide-y divide-gray-300 overflow-y-auto"
                 aria-label="Sidebar"
               >
                 <div className="space-y-1 px-2">
@@ -117,11 +121,46 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: any) => {
                   ))}
                 </div>
               </nav>
+              <div className="mx-3 shadow rounded-md border-2 p-3">
+                <p className="mb-4 border-b pb-2 text-center text-lg font-semibold uppercase text-gray-600">
+                  Follow me on
+                </p>
+                <div className="flex flex-col items-center justify-center">
+                  <a
+                    href="https://www.linkedin.com/in/rushilp2311/"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <img src={LinkedIn} alt="linkedin" className="h-8 pl-3" />
+                  </a>
+                  <a
+                    href="https://github.com/rushilp2311"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <img src={Github} alt="github" className="mt-2 w-28" />
+                  </a>
+                  <a
+                    href="https://hashnode.com/@rushilp2311"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <img src={Hashnode} alt="github" className="mt-2 w-32" />
+                  </a>
+                  <a
+                    href="https://patel-rushil.vercel.app/"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="mt-3 flex items-center justify-center text-gray-800"
+                  >
+                    <GlobeAltIcon className="mr-1 h-6 w-6 text-blue-600" />
+                    <p className="text-lg font-semibold">Personal Website</p>
+                  </a>
+                </div>
+              </div>
             </div>
           </Transition.Child>
-          <div className="w-14 flex-shrink-0" aria-hidden="true">
-            {/* Dummy element to force sidebar to shrink to fit close icon */}
-          </div>
+          <div className="w-14 flex-shrink-0" aria-hidden="true"></div>
         </Dialog>
       </Transition.Root>
 
@@ -162,6 +201,43 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: any) => {
               ))}
             </div>
           </nav>
+          <div className="mx-3 shadow rounded-md border-2 p-3 ">
+            <p className="mb-4 border-b pb-2 text-center text-lg font-semibold uppercase text-gray-600">
+              Follow me on
+            </p>
+            <div className="flex flex-col items-center justify-center">
+              <a
+                href="https://www.linkedin.com/in/rushilp2311/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <img src={LinkedIn} alt="linkedin" className="h-8 pl-3 " />
+              </a>
+              <a
+                href="https://github.com/rushilp2311"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <img src={Github} alt="github" className="mt-2 w-28" />
+              </a>
+              <a
+                href="https://hashnode.com/@rushilp2311"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <img src={Hashnode} alt="github" className="mt-2 w-32" />
+              </a>
+              <a
+                href="https://patel-rushil.vercel.app/"
+                target="_blank"
+                rel="noreferrer"
+                className="mt-3 flex items-center justify-center text-gray-800"
+              >
+                <GlobeAltIcon className="mr-1 h-6 w-6 text-blue-600" />
+                <p className="text-lg font-semibold">Personal Website</p>
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </>

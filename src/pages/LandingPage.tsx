@@ -9,6 +9,7 @@ import Button from "../components/Button";
 import HashNodeLogo from "../images/hashnode.png";
 import { ReactComponent as PieChart } from "../images/pie-chart.svg";
 import { ReactComponent as CircleGroup } from "../images/circle-group.svg";
+import { ReactComponent as Linode } from "../images/Linode.svg";
 import DashboardImg from "../images/dashboard.png";
 import GroupImg from "../images/group.png";
 import { Link } from "react-router-dom";
@@ -204,8 +205,8 @@ export default function LandingPage() {
           Footer
         </h2>
         <div className="mx-auto max-w-7xl px-4 pt-16 pb-8 sm:px-6 lg:px-8 lg:pt-24">
-          <div className="xl:grid xl:grid-cols-3 xl:gap-8">
-            <div className="mt-12 xl:mt-0">
+          <div className="flex items-center justify-between">
+            <div>
               <h3 className="text-sm font-semibold uppercase tracking-wider text-gray-400">
                 Follow Me
               </h3>
@@ -237,6 +238,17 @@ export default function LandingPage() {
                   <img src={HashNodeLogo} alt="hashnode" className="h-10" />
                 </a>
               </div>
+            </div>
+            <div>
+              <a
+                href="https://townhall.hashnode.com/build-with-linode-hackathon-june-2022?source=hashnode_countdown"
+                target="_blank"
+                rel="noreferrer"
+                className="flex w-full justify-end"
+              >
+                <Linode className="w-24" /> <span className="mx-3">x</span>
+                <img src={HashNodeLogo} alt="hashnode" className="w-32" />
+              </a>
             </div>
           </div>
           <div className="mt-12 border-t border-gray-200 pt-8 md:flex md:items-center md:justify-between lg:mt-16">

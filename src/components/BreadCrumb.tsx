@@ -6,11 +6,11 @@ const Breadcrumb = ({ paths }: any) => {
     <div>
       <nav className="sm:hidden" aria-label="Back">
         <Link
-          to="/"
+          to={paths[0].to}
           className="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700"
         >
           <ChevronLeftIcon
-            className="flex-shrink-0 -ml-1 mr-1 h-5 w-5 text-gray-400"
+            className="-ml-1 mr-1 h-5 w-5 flex-shrink-0 text-gray-400"
             aria-hidden="true"
           />
           Back
@@ -33,7 +33,7 @@ const Breadcrumb = ({ paths }: any) => {
               <li key={path.to}>
                 <div className="flex items-center">
                   <ChevronRightIcon
-                    className="flex-shrink-0 h-5 w-5 text-gray-400"
+                    className="h-5 w-5 flex-shrink-0 text-gray-400"
                     aria-hidden="true"
                   />
                   <Link to={path.to}>

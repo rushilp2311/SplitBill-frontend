@@ -116,7 +116,7 @@ const GroupDetail = () => {
               { name: "Group Detail", to: `/group/details/${group._id}` },
             ]}
           />
-          <div className="mt-2 md:flex md:items-center md:justify-between">
+          <div className="mt-2 flex md:items-center md:justify-between">
             <div className="min-w-0 flex-1">
               <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl">
                 {group.name}
@@ -130,7 +130,7 @@ const GroupDetail = () => {
               </Link>
             </div>
             <div className="flex flex-shrink-0 md:mt-0 md:ml-4 md:hidden">
-              <Link to="/addgroup">
+              <Link to={`/group/${group._id}/addexpense`}>
                 <Button>
                   <PlusCircleIcon className="w-5" />
                 </Button>
@@ -138,7 +138,7 @@ const GroupDetail = () => {
             </div>
           </div>
         </div>
-        <div className="flex h-[calc(100vh-180px)] flex-col pt-6 sm:grid sm:grid-cols-4 sm:space-x-4">
+        <div className="flex flex-col pt-6 sm:grid sm:h-[calc(100vh-180px)] sm:grid-cols-4 sm:space-x-4">
           <div className="w-full overflow-y-auto sm:col-span-2">
             {/* Expense List */}
             <p className="mb-2 text-sm font-medium uppercase text-gray-500">
