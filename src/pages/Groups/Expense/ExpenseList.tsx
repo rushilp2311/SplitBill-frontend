@@ -16,29 +16,29 @@ const ExpenseList = ({ expenseList, settled = false }: ExpenseProps) => {
   return (
     <>
       {expenseList && expenseList.length > 0 ? (
-        <div className="border divide-y rounded mt-2 shadow overflow-y-auto">
+        <div className="mt-2 divide-y overflow-y-auto rounded border shadow">
           {expenseList.map((expense: any) => (
             <>
               <div
                 key={expense._id}
-                className=" grid grid-cols-3 sm:grid-cols-5 items-center px-3 py-1 hover:bg-gray-50 hover:cursor-pointer"
+                className=" grid grid-cols-3 items-center px-3 py-1 hover:cursor-pointer hover:bg-gray-50 sm:grid-cols-5"
                 onClick={() => {
                   setShowExpenseDetail(true);
                   setSelectedExpense(expense);
                 }}
               >
                 <div className="pl-2">
-                  <p className="text-lg text-blue-600 font-semibold mt-1 ">
+                  <p className="mt-1 text-lg font-semibold text-blue-600 ">
                     {expense.description}
                   </p>
                   <p className="text-md font-medium text-gray-500">
                     $ {Number(expense.amount).toFixed(2)}
                   </p>
                 </div>
-                <div className="text-gray-500 hidden sm:block col-span-2 text-sm justify-self-center">
+                <div className="col-span-2 hidden justify-self-center text-sm text-gray-500 sm:block">
                   <p>
                     Paid by{" "}
-                    <span className="text-gray-600 font-medium">
+                    <span className="font-medium text-gray-600">
                       {expense.paidBy._id === currentUser._id
                         ? "You"
                         : expense.paidBy.name}
@@ -46,13 +46,13 @@ const ExpenseList = ({ expenseList, settled = false }: ExpenseProps) => {
                   </p>
                   <p>
                     on{" "}
-                    <span className="text-gray-600 font-medium">
+                    <span className="font-medium text-gray-600">
                       {new Date(expense.date).toUTCString().slice(0, 17)}
                     </span>
                   </p>
                 </div>
                 {expense.paidBy._id === currentUser.id ? (
-                  <div className="text-green-600 font-semibold text-sm justify-self-center">
+                  <div className="justify-self-center text-sm font-semibold text-green-600">
                     <p>You Lent</p>
                     <p>
                       ${" "}
@@ -68,7 +68,7 @@ const ExpenseList = ({ expenseList, settled = false }: ExpenseProps) => {
                   <div
                     className={`${
                       settled ? "text-green-600" : "text-red-500"
-                    } font-semibold text-sm justify-self-center`}
+                    } justify-self-center text-sm font-semibold`}
                   >
                     {settled ? <p>You Paid</p> : <p>You Owe</p>}
                     <p>
@@ -92,14 +92,14 @@ const ExpenseList = ({ expenseList, settled = false }: ExpenseProps) => {
           ))}
         </div>
       ) : (
-        <div className="text-center p-2 border-2 rounded border-dashed">
+        <div className="rounded border-2 border-dashed p-2 text-center">
           <div className="flex justify-center">
             <CurrencyRupeeIcon className="w-10 stroke-slate-600 stroke-1" />
           </div>
-          <h3 className="mt-2 text font-medium text-gray-900">
+          <h3 className="text mt-2 font-medium text-gray-900">
             {settled ? "Nothing to Show" : "No Active Expenses"}
           </h3>
-          <p className="mt-1 text text-gray-500">
+          <p className="text mt-1 text-gray-500">
             Add expenses by clicking the + button.
           </p>
         </div>

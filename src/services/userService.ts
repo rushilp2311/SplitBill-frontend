@@ -18,3 +18,12 @@ export async function findExpenseForUser() {
   const result = await http.get(`${apiEndpoint}/expenses/${currentUser.id}`);
   return result.data;
 }
+
+export async function fetchUsersByIds(userIds: string[]) {
+  const result = await http.get(`${apiEndpoint}`, {
+    params: {
+      userIds: JSON.stringify(userIds),
+    },
+  });
+  return result.data;
+}
