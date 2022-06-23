@@ -85,7 +85,13 @@ export default function LandingPage() {
             </p>
             <div className="mt-6">
               <div className="flex justify-center">
-                <img src={HashNodeLogo} alt="hashnode" className="max-w-xs" />
+                <a
+                  href="https://rushilpatel.hashnode.dev/introducing-splitbill-split-bills-easily-with-friends"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <img src={HashNodeLogo} alt="hashnode" className="max-w-xs" />
+                </a>
               </div>
             </div>
           </div>
