@@ -32,3 +32,5 @@ Split bills with your friends easily and efficiently. Register today with your f
 ```
 REACT_APP_URL=
 ```
+
+#### Linode x Hashnode project
