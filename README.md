@@ -33,4 +33,4 @@ Split bills with your friends easily and efficiently. Register today with your f
 REACT_APP_URL=
 ```
 
-#### Linode x Hashnode project
+#### [Linode](https://www.linode.com/?utm_source=hashnode&utm_medium=article&utm_campaign=hackathon_announcement) x [Hashnode](www.hashnode.com) project
