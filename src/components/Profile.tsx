@@ -13,7 +13,7 @@ const Profile = () => {
         <Menu.Button className="flex max-w-xs items-center rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 lg:rounded-md lg:p-2 lg:hover:bg-gray-50">
           <img
             className="h-8 w-8 rounded-full"
-            src="https://xsgames.co/randomusers/avatar.php?g=female"
+            src={`https://ui-avatars.com/api/?name=${currentUser.name}&background=2463EB&color=fff`}
             alt=""
           />
           <span className="ml-3 hidden text-sm font-medium text-gray-700 lg:block">
