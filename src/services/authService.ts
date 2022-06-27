@@ -33,3 +33,8 @@ export function getCurrentUser(): User | null {
     return null;
   }
 }
+
+export async function pingServer() {
+  const { data } = await http.get(`${apiEndpoint}/ping`);
+  return data;
+}

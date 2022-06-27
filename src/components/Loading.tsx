@@ -1,10 +1,27 @@
 import { CgSpinner } from "react-icons/cg";
 
-const Loading = () => {
+import LoadingGIF from "../images/loading.gif";
+
+const Loading = ({
+  isServerLoading = false,
+}: {
+  isServerLoading?: boolean;
+}) => {
   return (
-    <div className="h-full w-full flex justify-center items-center">
-      <CgSpinner className="animate-spin text-3xl" />
-    </div>
+    <>
+      {isServerLoading ? (
+        <div className="flex h-full w-full flex-col items-center justify-center">
+          <img src={LoadingGIF} alt="loading" className="h-64" />
+          <p className="mt-8 animate-pulse text-center align-middle text-xl font-semibold">
+            Connecting to Server...
+          </p>
+        </div>
+      ) : (
+        <div className="flex h-full w-full items-center justify-center">
+          <CgSpinner className="animate-spin text-3xl" />
+        </div>
+      )}
+    </>
   );
 };
 
